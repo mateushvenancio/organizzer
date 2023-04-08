@@ -1,19 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:organizzer/presenter/components/despesa_button.dart';
+import 'package:organizzer/presenter/components/tarefa_tile.dart';
 import 'package:organizzer/resources/colors.dart';
+import 'package:organizzer/resources/constants.dart';
+import 'package:organizzer/utils/insert_between_list.dart';
 
 class MainCardComponent extends StatelessWidget {
-  const MainCardComponent({super.key});
+  final String title;
+  final List<Widget> itens;
+
+  const MainCardComponent({
+    super.key,
+    required this.title,
+    this.itens = const [],
+  });
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
       child: Material(
-        elevation: 10,
+        elevation: kMainElevation,
         borderRadius: BorderRadius.circular(16),
         child: Container(
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.all(kMainPadding),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -21,7 +31,7 @@ class MainCardComponent extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Last records',
+                    title,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: AppColors.textColor,
@@ -34,17 +44,17 @@ class MainCardComponent extends StatelessWidget {
                 height: 24,
                 thickness: 1,
               ),
-              OperacaoTile(),
-              SizedBox(height: 16),
-              OperacaoTile(),
-              SizedBox(height: 16),
-              OperacaoTile(),
-              SizedBox(height: 16),
-              OperacaoTile(),
-              SizedBox(height: 16),
+              ...insertBetweenList(itens, SizedBox(height: kMainPadding)),
+              // TarefaTile(),
+              // SizedBox(height: 16),
+              // TarefaTile(),
+              // SizedBox(height: 16),
+              // TarefaTile(),
+              // SizedBox(height: 16),
               Container(
                 width: double.infinity,
                 alignment: Alignment.centerRight,
+                padding: const EdgeInsets.only(top: kMainPadding),
                 child: Text(
                   'Ver mais',
                   style: TextStyle(
