@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:organizzer/presenter/controllers/home_controller.dart';
+import 'package:organizzer/presenter/screens/compras_screen.dart';
 import 'package:organizzer/presenter/screens/home_screen.dart';
-import 'package:organizzer/presenter/screens/operacoes_screen.dart';
+import 'package:organizzer/presenter/screens/tarefas_screen.dart';
 import 'package:organizzer/resources/colors.dart';
 import 'package:provider/provider.dart';
 import 'package:stylish_bottom_bar/model/bar_items.dart';
@@ -21,8 +22,8 @@ class MainScreen extends StatelessWidget {
             children: [
               HomeScreen(),
               Container(),
-              OperacoesScreen(),
-              Container(),
+              TarefasScreen(),
+              ComprasScreen(),
             ],
           );
         },
@@ -49,20 +50,20 @@ class MainScreen extends StatelessWidget {
                 unSelectedColor: AppColors.greySecondary,
               ),
               BottomBarItem(
+                icon: Icon(Icons.settings_outlined),
+                title: Text('Config'),
+                selectedColor: AppColors.primaryColor,
+                unSelectedColor: AppColors.greySecondary,
+              ),
+              BottomBarItem(
                 icon: Icon(Icons.pie_chart_outline),
-                title: Text('Operações'),
+                title: Text('Tarefas'),
                 selectedColor: AppColors.primaryColor,
                 unSelectedColor: AppColors.greySecondary,
               ),
               BottomBarItem(
                 icon: Icon(Icons.format_list_bulleted_rounded),
                 title: Text('Stats'),
-                selectedColor: AppColors.primaryColor,
-                unSelectedColor: AppColors.greySecondary,
-              ),
-              BottomBarItem(
-                icon: Icon(Icons.settings_outlined),
-                title: Text('Config'),
                 selectedColor: AppColors.primaryColor,
                 unSelectedColor: AppColors.greySecondary,
               ),

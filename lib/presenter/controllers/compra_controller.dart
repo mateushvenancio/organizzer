@@ -9,4 +9,11 @@ class CompraController extends ChangeNotifier {
     CompraEntity(nome: 'Coca cola', createdAt: DateTime.now(), done: false),
     CompraEntity(nome: 'Batata frita', createdAt: DateTime.now(), done: true),
   ];
+
+  editCompra(CompraEntity value) {
+    final index = compras.indexWhere((e) => e.id == value.id);
+    final compra = compras[index];
+    compras[index] = compra.copyWith(done: !compra.done);
+    notifyListeners();
+  }
 }
