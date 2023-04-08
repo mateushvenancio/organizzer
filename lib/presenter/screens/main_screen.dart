@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:organizzer/presenter/components/add_compra_dialog.dart';
+import 'package:organizzer/presenter/controllers/compra_controller.dart';
 import 'package:organizzer/presenter/controllers/home_controller.dart';
 import 'package:organizzer/presenter/screens/compras_screen.dart';
 import 'package:organizzer/presenter/screens/home_screen.dart';
@@ -28,10 +30,25 @@ class MainScreen extends StatelessWidget {
           );
         },
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        backgroundColor: AppColors.primaryColor,
-        child: Icon(Icons.add),
+      floatingActionButton: Consumer<CompraController>(
+        builder: (context, controller, child) {
+          return FloatingActionButton(
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (_) => AddCompraDialog(
+                  onSelect: (value) {
+                    if (value != null) {
+                      controller.addCompra(value);
+                    }
+                  },
+                ),
+              );
+            },
+            backgroundColor: AppColors.primaryColor,
+            child: Icon(Icons.add),
+          );
+        },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       extendBody: true,

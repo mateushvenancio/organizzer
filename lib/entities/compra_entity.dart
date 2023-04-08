@@ -11,9 +11,10 @@ class CompraEntity {
     String? id,
     required this.nome,
     this.descricao,
-    required this.createdAt,
+    DateTime? createdAt,
     this.done = false,
-  }) : id = id ?? Random().nextInt(9999).toString();
+  })  : id = id ?? Random().nextInt(9999).toString(),
+        createdAt = createdAt ?? DateTime.now();
 
   CompraEntity copyWith({
     String? nome,
