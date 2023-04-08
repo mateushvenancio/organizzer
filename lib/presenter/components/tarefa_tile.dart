@@ -32,9 +32,8 @@ class TarefaTile extends StatelessWidget {
   }
 
   TextDecoration? get _getLineThrough {
-    if (tarefa.done) {
-      return TextDecoration.lineThrough;
-    }
+    if (!tarefa.done) return null;
+    return TextDecoration.lineThrough;
   }
 
   @override

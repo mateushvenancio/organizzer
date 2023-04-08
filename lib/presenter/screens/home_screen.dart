@@ -85,7 +85,7 @@ class HomeScreen extends StatelessWidget {
 }
 
 class _Atalho extends StatelessWidget {
-  const _Atalho({super.key});
+  const _Atalho();
 
   @override
   Widget build(BuildContext context) {
