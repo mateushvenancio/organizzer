@@ -6,11 +6,9 @@ import 'package:organizzer/repositories/i_compras_repository.dart';
 
 class CompraController extends ChangeNotifier {
   final IComprasRepository repository;
-  CompraController(this.repository) {
-    _init();
-  }
+  CompraController(this.repository);
 
-  _init() async {
+  init() async {
     final result = await repository.getCompras();
     compras = result;
     notifyListeners();

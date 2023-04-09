@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:organizzer/core/dto/create_compra_dto.dart';
 import 'package:organizzer/presenter/components/main_text_field.dart';
 
@@ -35,7 +36,7 @@ class _AddCompraDialogState extends State<AddCompraDialog> {
       ),
       actions: [
         TextButton(
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () => context.pop(),
           child: Text('Cancelar'),
         ),
         TextButton(
