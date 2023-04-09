@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:organizzer/entities/compra_entity.dart';
+import 'package:organizzer/core/dto/create_compra_dto.dart';
 import 'package:organizzer/presenter/components/main_text_field.dart';
 
 class AddCompraDialog extends StatefulWidget {
-  final Function(CompraEntity?) onSelect;
+  final Function(CreateCompraDto?) onSelect;
   const AddCompraDialog({super.key, required this.onSelect});
 
   @override
@@ -20,7 +20,7 @@ class _AddCompraDialogState extends State<AddCompraDialog> {
         error = 'Digite um nome para a compra';
       });
     }
-    widget.onSelect(CompraEntity(nome: controller.text));
+    widget.onSelect(CreateCompraDto(nome: controller.text));
     Navigator.of(context).pop();
   }
 

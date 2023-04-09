@@ -79,8 +79,8 @@ class MainScreen extends StatelessWidget {
                 unSelectedColor: AppColors.greySecondary,
               ),
               BottomBarItem(
-                icon: Icon(Icons.format_list_bulleted_rounded),
-                title: Text('Stats'),
+                icon: Icon(Icons.attach_money),
+                title: Text('Compras'),
                 selectedColor: AppColors.primaryColor,
                 unSelectedColor: AppColors.greySecondary,
               ),

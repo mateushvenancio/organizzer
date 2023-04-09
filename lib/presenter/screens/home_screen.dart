@@ -68,7 +68,7 @@ class HomeScreen extends StatelessWidget {
                     Consumer<CompraController>(builder: (context, controller, child) {
                       return MainCardComponent(
                         title: 'Lista de compras',
-                        itens: controller.compras.getRange(0, 3).map((e) {
+                        itens: controller.compras.map((e) {
                           return CompraTile(
                             compra: e,
                             onTap: (_) {},
