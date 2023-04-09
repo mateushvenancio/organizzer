@@ -22,7 +22,7 @@ class _AddCompraDialogState extends State<AddCompraDialog> {
       });
     }
     widget.onSelect(CreateCompraDto(nome: controller.text));
-    Navigator.of(context).pop();
+    context.pop();
   }
 
   @override
