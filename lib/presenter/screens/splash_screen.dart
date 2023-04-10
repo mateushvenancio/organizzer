@@ -13,7 +13,7 @@ class _SplashScreenState extends State<SplashScreen> {
   _init() async {
     await widget.onLoad();
     if (mounted) {
-      context.go('location');
+      context.go('/main');
     }
   }
 

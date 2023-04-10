@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:organizzer/presenter/components/compra_tile.dart';
 import 'package:organizzer/presenter/components/main_card_component.dart';
 import 'package:organizzer/presenter/components/tarefa_tile.dart';
@@ -6,10 +7,29 @@ import 'package:organizzer/presenter/controllers/compra_controller.dart';
 import 'package:organizzer/presenter/controllers/tarefas_controller.dart';
 import 'package:organizzer/resources/colors.dart';
 import 'package:organizzer/resources/constants.dart';
+import 'package:organizzer/utils/insert_between_list.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  List<_AtalhoModel> get _atalhos {
+    return [
+      _AtalhoModel(
+        icon: Icons.qr_code_2,
+        onTap: () => context.push('/qr'),
+      ),
+      _AtalhoModel(icon: FontAwesomeIcons.whatsapp, onTap: () {}),
+      _AtalhoModel(icon: Icons.calculate_outlined, onTap: () {}),
+      _AtalhoModel(icon: FontAwesomeIcons.noteSticky, onTap: () {}),
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,21 +65,16 @@ class HomeScreen extends StatelessWidget {
                     SizedBox(height: kHomeHeaderSize / 2),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Expanded(child: _Atalho()),
+                      children: insertBetweenList<Widget>(
+                        _atalhos.map((e) => Expanded(child: _Atalho(icon: e.icon, onTap: e.onTap))).toList(),
                         SizedBox(width: kMainPadding),
-                        Expanded(child: _Atalho()),
-                        SizedBox(width: kMainPadding),
-                        Expanded(child: _Atalho()),
-                        SizedBox(width: kMainPadding),
-                        Expanded(child: _Atalho()),
-                      ],
+                      ),
                     ),
                     SizedBox(height: kMainPadding),
                     Consumer<TarefasController>(builder: (context, controller, child) {
                       return MainCardComponent(
                         title: 'Tarefas',
-                        itens: controller.tarefas.getRange(0, 3).map((e) {
+                        itens: controller.tarefas.map((e) {
                           return TarefaTile(tarefa: e);
                         }).toList(),
                       );
@@ -88,7 +103,10 @@ class HomeScreen extends StatelessWidget {
 }
 
 class _Atalho extends StatelessWidget {
-  const _Atalho();
+  final IconData icon;
+  final Function() onTap;
+
+  const _Atalho({required this.icon, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -99,13 +117,20 @@ class _Atalho extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         child: InkWell(
           borderRadius: BorderRadius.circular(16),
-          onTap: () {},
-          child: Icon(
-            Icons.qr_code_2,
-            size: 30,
-          ),
+          onTap: onTap,
+          child: Icon(icon, size: 30),
         ),
       ),
     );
   }
+}
+
+class _AtalhoModel {
+  final IconData icon;
+  final Function() onTap;
+
+  const _AtalhoModel({
+    required this.icon,
+    required this.onTap,
+  });
 }

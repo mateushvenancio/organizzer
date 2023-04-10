@@ -41,6 +41,9 @@ dependencies:
   stylish_bottom_bar: ^1.0.0
   shared_preferences: ^2.1.0
   uuid: ^3.0.7
+  font_awesome_flutter: ^10.4.0
+  mobile_scanner: ^3.2.0
+  url_launcher: ^6.1.10
 
 dev_dependencies:
   flutter_test:

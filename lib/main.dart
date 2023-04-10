@@ -7,6 +7,7 @@ import 'package:organizzer/presenter/controllers/compra_controller.dart';
 import 'package:organizzer/presenter/controllers/home_controller.dart';
 import 'package:organizzer/presenter/controllers/tarefas_controller.dart';
 import 'package:organizzer/presenter/screens/main_screen.dart';
+import 'package:organizzer/presenter/screens/qr_code_screen.dart';
 import 'package:organizzer/presenter/screens/splash_screen.dart';
 import 'package:organizzer/repositories/i_compras_repository.dart';
 import 'package:organizzer/resources/colors.dart';
@@ -64,6 +65,10 @@ final _router = GoRouter(
     GoRoute(
       path: '/main',
       builder: (context, state) => MainScreen(),
+    ),
+    GoRoute(
+      path: '/qr',
+      builder: (context, state) => QrCodeScreen(),
     ),
   ],
 );
