@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:organizzer/presenter/components/add_compra_dialog.dart';
+import 'package:organizzer/presenter/components/expandable_fab.dart';
 import 'package:organizzer/presenter/controllers/compra_controller.dart';
 import 'package:organizzer/presenter/controllers/home_controller.dart';
 import 'package:organizzer/presenter/screens/compras_screen.dart';
@@ -12,6 +13,8 @@ import 'package:stylish_bottom_bar/stylish_bottom_bar.dart';
 
 class MainScreen extends StatelessWidget {
   const MainScreen({super.key});
+
+  _createOverlayEntry() {}
 
   @override
   Widget build(BuildContext context) {
