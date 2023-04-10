@@ -15,6 +15,10 @@ class CompraController extends ChangeNotifier {
   }
 
   List<CompraEntity> compras = [];
+  List<CompraEntity> get topCompras {
+    if (compras.length < 3) return compras;
+    return compras.getRange(0, 3).toList();
+  }
 
   addCompra(CreateCompraDto value) async {
     final novo = await repository.createCompra(value);

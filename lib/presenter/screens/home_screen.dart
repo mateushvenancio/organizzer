@@ -4,6 +4,7 @@ import 'package:organizzer/presenter/components/compra_tile.dart';
 import 'package:organizzer/presenter/components/main_card_component.dart';
 import 'package:organizzer/presenter/components/tarefa_tile.dart';
 import 'package:organizzer/presenter/controllers/compra_controller.dart';
+import 'package:organizzer/presenter/controllers/home_controller.dart';
 import 'package:organizzer/presenter/controllers/tarefas_controller.dart';
 import 'package:organizzer/resources/colors.dart';
 import 'package:organizzer/resources/constants.dart';
@@ -89,12 +90,15 @@ class _HomeScreenState extends State<HomeScreen> {
                     Consumer<CompraController>(builder: (context, controller, child) {
                       return MainCardComponent(
                         title: 'Lista de compras',
-                        itens: controller.compras.map((e) {
+                        itens: controller.topCompras.map((e) {
                           return CompraTile.collapsed(
                             compra: e,
                             onTap: controller.editCompra,
                           );
                         }).toList(),
+                        verMais: () {
+                          context.read<HomeController>().setBottomBarIndex(3);
+                        },
                       );
                     }),
                   ],

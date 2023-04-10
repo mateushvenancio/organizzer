@@ -6,11 +6,15 @@ import 'package:organizzer/resources/constants.dart';
 class MainCardComponent extends StatelessWidget {
   final String title;
   final List<Widget> itens;
+  final Function()? menu;
+  final Function()? verMais;
 
   const MainCardComponent({
     super.key,
     required this.title,
     this.itens = const [],
+    this.menu,
+    this.verMais,
   });
 
   @override
@@ -35,7 +39,11 @@ class MainCardComponent extends StatelessWidget {
                       color: AppColors.textColor,
                     ),
                   ),
-                  Icon(Icons.more_horiz)
+                  GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onTap: () => menu?.call(),
+                    child: Icon(Icons.more_horiz),
+                  ),
                 ],
               ),
               Divider(
@@ -44,15 +52,19 @@ class MainCardComponent extends StatelessWidget {
               ),
               if (itens.isEmpty) NoContentChip(),
               ...itens,
-              Container(
-                width: double.infinity,
-                alignment: Alignment.centerRight,
-                padding: const EdgeInsets.only(top: kMainPadding),
-                child: Text(
-                  'Ver mais',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.primaryColor,
+              GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: () => verMais?.call(),
+                child: Container(
+                  width: double.infinity,
+                  alignment: Alignment.centerRight,
+                  padding: const EdgeInsets.only(top: kMainPadding),
+                  child: Text(
+                    'Ver mais',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.primaryColor,
+                    ),
                   ),
                 ),
               ),
