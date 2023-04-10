@@ -35,6 +35,7 @@ class MainTextField extends StatelessWidget {
       keyboardType: inputType,
       focusNode: focusNode,
       onEditingComplete: onEnter,
+      textCapitalization: TextCapitalization.sentences,
     );
   }
 }

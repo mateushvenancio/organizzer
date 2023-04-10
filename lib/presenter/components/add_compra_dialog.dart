@@ -13,6 +13,7 @@ class AddCompraDialog extends StatefulWidget {
 
 class _AddCompraDialogState extends State<AddCompraDialog> {
   final controller = TextEditingController();
+  final focusNode = FocusNode();
   String? error;
 
   returnCompra() {
@@ -26,6 +27,14 @@ class _AddCompraDialogState extends State<AddCompraDialog> {
   }
 
   @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      focusNode.requestFocus();
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Text('Nova Compra'),
@@ -33,6 +42,8 @@ class _AddCompraDialogState extends State<AddCompraDialog> {
         hint: 'Título da compra',
         controller: controller,
         errorText: error,
+        focusNode: focusNode,
+        onEnter: () => returnCompra(),
       ),
       actions: [
         TextButton(
