@@ -9,10 +9,8 @@ import 'package:organizzer/resources/constants.dart';
 class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String? title;
   final Widget? leading;
-  final bool _back;
 
-  const MainAppBar({super.key, this.title, this.leading}) : _back = false;
-  const MainAppBar.back({super.key, this.title, this.leading}) : _back = true;
+  const MainAppBar({super.key, this.title, this.leading});
 
   Widget buildLeading(bool canPop, Function() onBack) {
     if (canPop) {

@@ -18,7 +18,7 @@ class _WhatsappScreenState extends State<WhatsappScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MainAppBar.back(title: 'WhatsApp Launcher'),
+      appBar: MainAppBar(title: 'WhatsApp Launcher'),
       body: Container(
         padding: const EdgeInsets.all(kMainPadding),
         child: Column(

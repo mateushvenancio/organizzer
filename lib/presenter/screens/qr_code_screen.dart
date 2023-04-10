@@ -17,8 +17,6 @@ class _QrCodeScreenState extends State<QrCodeScreen> {
   final controller = MobileScannerController();
   String? scanneado;
 
-  _updateValue(String? content) {}
-
   @override
   void dispose() {
     controller.dispose();

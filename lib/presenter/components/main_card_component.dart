@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:organizzer/presenter/components/no_content_chip.dart';
 import 'package:organizzer/resources/colors.dart';
 import 'package:organizzer/resources/constants.dart';
-import 'package:organizzer/utils/insert_between_list.dart';
 
 class MainCardComponent extends StatelessWidget {
   final String title;

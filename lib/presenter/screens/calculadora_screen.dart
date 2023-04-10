@@ -25,28 +25,28 @@ class _CalculadoraScreenState extends State<CalculadoraScreen> {
   String? terceiroErro;
 
   _calcular() {
-    final _primeiro = num.tryParse(primeiroNumero.text);
-    final _segundo = num.tryParse(segundoNumero.text);
-    final _terceiro = num.tryParse(terceiroNumero.text);
+    final numPrimeiro = num.tryParse(primeiroNumero.text);
+    final numSegundo = num.tryParse(segundoNumero.text);
+    final numTerceiro = num.tryParse(terceiroNumero.text);
 
     setState(() {
-      primeiroErro = _primeiro == null ? 'Digite um número válido' : null;
-      segundoErro = _segundo == null ? 'Digite um número válido' : null;
-      terceiroErro = _terceiro == null ? 'Digite um número válido' : null;
+      primeiroErro = numPrimeiro == null ? 'Digite um número válido' : null;
+      segundoErro = numSegundo == null ? 'Digite um número válido' : null;
+      terceiroErro = numTerceiro == null ? 'Digite um número válido' : null;
     });
 
-    if (_primeiro == null || _segundo == null || _terceiro == null) {
+    if (numPrimeiro == null || numSegundo == null || numTerceiro == null) {
       quartoNumero.text = '';
       return;
     }
 
-    quartoNumero.text = ((_terceiro * _segundo) / _primeiro).toString();
+    quartoNumero.text = ((numTerceiro * numSegundo) / numPrimeiro).toString();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MainAppBar.back(title: 'Calculadora'),
+      appBar: MainAppBar(title: 'Calculadora'),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(kMainPadding),
@@ -147,7 +147,7 @@ class _CalculadoraScreenState extends State<CalculadoraScreen> {
 
 class _Titulo extends StatelessWidget {
   final String text;
-  const _Titulo(this.text, {super.key});
+  const _Titulo(this.text);
 
   @override
   Widget build(BuildContext context) {
