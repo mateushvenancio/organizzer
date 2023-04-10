@@ -90,9 +90,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       return MainCardComponent(
                         title: 'Lista de compras',
                         itens: controller.compras.map((e) {
-                          return CompraTile(
+                          return CompraTile.collapsed(
                             compra: e,
-                            onTap: (_) {},
+                            onTap: controller.editCompra,
                           );
                         }).toList(),
                       );

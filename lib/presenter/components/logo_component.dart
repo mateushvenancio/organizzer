@@ -6,13 +6,10 @@ class LogoComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AspectRatio(
-      aspectRatio: 1,
-      child: Image.asset(
-        'assets/logo.png',
-        width: size,
-        height: size,
-      ),
+    return Image.asset(
+      'assets/logo.png',
+      width: size,
+      height: size,
     );
   }
 }

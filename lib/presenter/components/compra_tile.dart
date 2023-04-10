@@ -5,12 +5,19 @@ import 'package:organizzer/resources/colors.dart';
 class CompraTile extends StatelessWidget {
   final CompraEntity compra;
   final Function(CompraEntity) onTap;
+  final bool _collapsed;
 
   const CompraTile({
     super.key,
     required this.compra,
     required this.onTap,
-  });
+  }) : _collapsed = false;
+
+  const CompraTile.collapsed({
+    super.key,
+    required this.compra,
+    required this.onTap,
+  }) : _collapsed = true;
 
   Widget get _getIcon {
     if (compra.done) {
@@ -39,6 +46,7 @@ class CompraTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      contentPadding: _collapsed ? EdgeInsets.zero : null,
       leading: Container(
         height: 30,
         width: 30,
