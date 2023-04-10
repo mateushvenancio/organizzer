@@ -11,7 +11,12 @@ class ComprasScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MainAppBar(title: 'Compras'),
+      appBar: MainAppBar(
+        title: 'Compras',
+        menuItems: [
+          MainAppBarItem(label: 'Excluir concluídos', onTap: () {}),
+        ],
+      ),
       body: Consumer<CompraController>(
         builder: (context, controller, child) {
           return ListView(

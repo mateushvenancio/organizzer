@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
+
 import 'package:organizzer/presenter/components/logo_component.dart';
 import 'package:organizzer/presenter/components/main_icon_button.dart';
 import 'package:organizzer/resources/colors.dart';
@@ -9,14 +10,29 @@ import 'package:organizzer/resources/constants.dart';
 class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String? title;
   final Widget? leading;
+  final List<MainAppBarItem>? menuItems;
 
-  const MainAppBar({super.key, this.title, this.leading});
+  const MainAppBar({super.key, this.title, this.leading, this.menuItems});
 
   Widget buildLeading(bool canPop, Function() onBack) {
     if (canPop) {
       return MainIconButton.back(onTap: () => onBack());
     }
     return LogoComponent(size: 24);
+  }
+
+  Widget get buildMenu {
+    if (menuItems == null) return Container();
+    if (menuItems?.isEmpty ?? true) return Container();
+
+    // return IconButton(onPressed: () {}, icon: Icon(Icons.more_horiz));
+    return GestureDetector(
+      onTap: () {},
+      child: CircleAvatar(
+        backgroundColor: Colors.transparent,
+        child: Icon(Icons.more_horiz, color: AppColors.primaryColor),
+      ),
+    );
   }
 
   @override
@@ -52,6 +68,7 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
               ),
             ),
+            buildMenu,
           ],
         ),
       ),
@@ -60,4 +77,14 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+}
+
+class MainAppBarItem {
+  final String label;
+  final VoidCallback onTap;
+
+  MainAppBarItem({
+    required this.label,
+    required this.onTap,
+  });
 }

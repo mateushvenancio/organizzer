@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:organizzer/core/formatters/date_formatter.dart';
 import 'package:organizzer/entities/compra_entity.dart';
 import 'package:organizzer/resources/colors.dart';
 
@@ -46,11 +47,17 @@ class CompraTile extends StatelessWidget {
     return AppColors.black;
   }
 
+  TextDecoration? get _getDecoration {
+    if (!compra.done) return null;
+    return TextDecoration.lineThrough;
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListTile(
       contentPadding: _collapsed ? EdgeInsets.zero : null,
-      leading: Container(
+      leading: AnimatedContainer(
+        duration: const Duration(milliseconds: 100),
         height: 30,
         width: 30,
         decoration: BoxDecoration(
@@ -62,7 +69,13 @@ class CompraTile extends StatelessWidget {
         ),
         child: _getIcon,
       ),
-      title: Text(compra.nome),
+      trailing: Text(DateFormatter().miniDate(compra.createdAt)),
+      title: Text(
+        compra.nome,
+        style: TextStyle(
+          decoration: _getDecoration,
+        ),
+      ),
       onTap: () => onTap(compra),
       onLongPress: () => onLongTap?.call(compra),
     );
