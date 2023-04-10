@@ -29,7 +29,10 @@ class _HomeScreenState extends State<HomeScreen> {
         icon: FontAwesomeIcons.whatsapp,
         onTap: () => context.push('/whatsapp'),
       ),
-      _AtalhoModel(icon: Icons.calculate_outlined, onTap: () {}),
+      _AtalhoModel(
+        icon: Icons.calculate_outlined,
+        onTap: () => context.push('/calculadora'),
+      ),
       _AtalhoModel(icon: FontAwesomeIcons.noteSticky, onTap: () {}),
     ];
   }

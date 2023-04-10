@@ -14,8 +14,8 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
   const MainAppBar({super.key, this.title, this.leading}) : _back = false;
   const MainAppBar.back({super.key, this.title, this.leading}) : _back = true;
 
-  Widget buildLeading(Function() onBack) {
-    if (_back) {
+  Widget buildLeading(bool canPop, Function() onBack) {
+    if (canPop) {
       return MainIconButton.back(onTap: () => onBack());
     }
     return LogoComponent();
@@ -34,10 +34,18 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
         padding: const EdgeInsets.symmetric(
           horizontal: kMainPadding,
         ),
+        // decoration: BoxDecoration(
+        //   border: Border(
+        //     bottom: BorderSide(
+        //       width: 1,
+        //       color: AppColors.primaryColor,
+        //     ),
+        //   ),
+        // ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            buildLeading(() => context.pop()),
+            buildLeading(context.canPop(), () => context.pop()),
             const SizedBox(width: kMainPadding / 2),
             Expanded(
               child: Text(

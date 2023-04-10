@@ -6,6 +6,9 @@ class MainTextField extends StatelessWidget {
   final String? label;
   final String? errorText;
   final TextInputType? inputType;
+  final bool enabled;
+  final Function()? onEnter;
+  final FocusNode? focusNode;
 
   const MainTextField({
     super.key,
@@ -14,11 +17,15 @@ class MainTextField extends StatelessWidget {
     this.controller,
     this.errorText,
     this.inputType,
+    this.enabled = true,
+    this.onEnter,
+    this.focusNode,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextField(
+      enabled: enabled,
       controller: controller,
       decoration: InputDecoration(
         hintText: hint,
@@ -26,6 +33,8 @@ class MainTextField extends StatelessWidget {
         labelText: label,
       ),
       keyboardType: inputType,
+      focusNode: focusNode,
+      onEditingComplete: onEnter,
     );
   }
 }
