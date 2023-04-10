@@ -9,6 +9,7 @@ import 'package:organizzer/presenter/controllers/tarefas_controller.dart';
 import 'package:organizzer/presenter/screens/main_screen.dart';
 import 'package:organizzer/presenter/screens/qr_code_screen.dart';
 import 'package:organizzer/presenter/screens/splash_screen.dart';
+import 'package:organizzer/presenter/screens/whatsapp_screen.dart';
 import 'package:organizzer/repositories/i_compras_repository.dart';
 import 'package:organizzer/resources/colors.dart';
 import 'package:provider/provider.dart';
@@ -69,6 +70,10 @@ final _router = GoRouter(
     GoRoute(
       path: '/qr',
       builder: (context, state) => QrCodeScreen(),
+    ),
+    GoRoute(
+      path: '/whatsapp',
+      builder: (context, state) => WhatsappScreen(),
     ),
   ],
 );

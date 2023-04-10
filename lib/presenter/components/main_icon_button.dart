@@ -16,7 +16,7 @@ class MainIconButton extends StatelessWidget {
       child: IconButton(
         color: Colors.white,
         onPressed: onTap,
-        icon: Icon(icon),
+        icon: Icon(icon, color: Colors.white),
         constraints: BoxConstraints(
           minHeight: 24,
           minWidth: 24,

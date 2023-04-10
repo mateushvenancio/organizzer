@@ -25,7 +25,10 @@ class _HomeScreenState extends State<HomeScreen> {
         icon: Icons.qr_code_2,
         onTap: () => context.push('/qr'),
       ),
-      _AtalhoModel(icon: FontAwesomeIcons.whatsapp, onTap: () {}),
+      _AtalhoModel(
+        icon: FontAwesomeIcons.whatsapp,
+        onTap: () => context.push('/whatsapp'),
+      ),
       _AtalhoModel(icon: Icons.calculate_outlined, onTap: () {}),
       _AtalhoModel(icon: FontAwesomeIcons.noteSticky, onTap: () {}),
     ];

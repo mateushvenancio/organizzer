@@ -1,10 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:go_router/go_router.dart';
+import 'package:organizzer/presenter/components/logo_component.dart';
+import 'package:organizzer/presenter/components/main_icon_button.dart';
 import 'package:organizzer/resources/colors.dart';
+import 'package:organizzer/resources/constants.dart';
 
 class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String? title;
-  const MainAppBar({super.key, this.title});
+  final Widget? leading;
+  final bool _back;
+
+  const MainAppBar({super.key, this.title, this.leading}) : _back = false;
+  const MainAppBar.back({super.key, this.title, this.leading}) : _back = true;
+
+  Widget buildLeading(Function() onBack) {
+    if (_back) {
+      return MainIconButton.back(onTap: () => onBack());
+    }
+    return LogoComponent();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -13,11 +28,26 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
       statusBarIconBrightness: Brightness.light,
     ));
 
-    return AppBar(
-      backgroundColor: AppColors.greyBackground,
-      title: Text(
-        title ?? '',
-        style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+    return SafeArea(
+      child: Container(
+        height: double.infinity,
+        padding: const EdgeInsets.symmetric(
+          horizontal: kMainPadding,
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            buildLeading(() => context.pop()),
+            const SizedBox(width: kMainPadding / 2),
+            Expanded(
+              child: Text(
+                title ?? '',
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
