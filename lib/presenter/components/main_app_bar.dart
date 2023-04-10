@@ -18,7 +18,7 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
     if (canPop) {
       return MainIconButton.back(onTap: () => onBack());
     }
-    return LogoComponent();
+    return LogoComponent(size: 24);
   }
 
   @override

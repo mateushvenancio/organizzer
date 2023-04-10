@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:organizzer/presenter/components/compra_tile.dart';
 import 'package:organizzer/presenter/components/main_app_bar.dart';
+import 'package:organizzer/presenter/components/yes_no_dialog.dart';
 import 'package:organizzer/presenter/controllers/compra_controller.dart';
 import 'package:provider/provider.dart';
 
@@ -18,6 +19,19 @@ class ComprasScreen extends StatelessWidget {
               return CompraTile(
                 compra: e,
                 onTap: controller.editCompra,
+                onLongTap: (value) {
+                  showDialog(
+                    context: context,
+                    builder: (_) {
+                      return YesNoDialog(
+                        title: 'Deletar este item?',
+                        onYes: () {
+                          controller.deleteCompra(value);
+                        },
+                      );
+                    },
+                  );
+                },
               );
             }).toList(),
           );

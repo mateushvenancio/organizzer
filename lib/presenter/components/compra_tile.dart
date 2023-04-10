@@ -5,18 +5,21 @@ import 'package:organizzer/resources/colors.dart';
 class CompraTile extends StatelessWidget {
   final CompraEntity compra;
   final Function(CompraEntity) onTap;
+  final Function(CompraEntity)? onLongTap;
   final bool _collapsed;
 
   const CompraTile({
     super.key,
     required this.compra,
     required this.onTap,
+    this.onLongTap,
   }) : _collapsed = false;
 
   const CompraTile.collapsed({
     super.key,
     required this.compra,
     required this.onTap,
+    this.onLongTap,
   }) : _collapsed = true;
 
   Widget get _getIcon {
@@ -61,6 +64,7 @@ class CompraTile extends StatelessWidget {
       ),
       title: Text(compra.nome),
       onTap: () => onTap(compra),
+      onLongPress: () => onLongTap?.call(compra),
     );
   }
 }
