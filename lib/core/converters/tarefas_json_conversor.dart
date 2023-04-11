@@ -1,25 +1,23 @@
 import 'package:organizzer/core/converters/converter.dart';
-import 'package:organizzer/entities/compra_entity.dart';
+import 'package:organizzer/entities/tarefa_entity.dart';
 
-class CompraJsonConversor implements Conversor<Map<String, dynamic>, CompraEntity> {
+class TarefasJsonConversor implements Conversor<Map<String, dynamic>, TarefaEntity> {
   @override
-  CompraEntity from(Map<String, dynamic> input) {
-    return CompraEntity(
+  TarefaEntity from(Map<String, dynamic> input) {
+    return TarefaEntity(
       id: input['id'],
       nome: input['nome'],
-      descricao: input['descricao'],
       createdAt: DateTime.parse(input['createdAt']),
       done: input['done'],
     );
   }
 
   @override
-  Map<String, dynamic> to(CompraEntity input) {
+  Map<String, dynamic> to(TarefaEntity input) {
     return {
       'id': input.id,
       'nome': input.nome,
       'createdAt': input.createdAt.toString(),
-      'descricao': input.descricao,
       'done': input.done,
     };
   }

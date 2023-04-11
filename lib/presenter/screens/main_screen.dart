@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:organizzer/presenter/components/add_compra_dialog.dart';
+import 'package:organizzer/presenter/components/add_tarefa_dialog.dart';
 import 'package:organizzer/presenter/components/expandable_fab.dart';
 import 'package:organizzer/presenter/controllers/compra_controller.dart';
 import 'package:organizzer/presenter/controllers/home_controller.dart';
+import 'package:organizzer/presenter/controllers/tarefas_controller.dart';
 import 'package:organizzer/presenter/screens/compras_screen.dart';
 import 'package:organizzer/presenter/screens/home_screen.dart';
 import 'package:organizzer/presenter/screens/tarefas_screen.dart';
@@ -34,16 +36,23 @@ class MainScreen extends StatelessWidget {
       floatingActionButton: ExpandableFab(
         children: [
           ExpandableFabItem(
-            icon: Icons.attach_money,
+            icon: Icons.shopping_cart_outlined,
             onTap: () {
               showDialog(
                 context: context,
                 builder: (_) => AddCompraDialog(
-                  onSelect: (value) {
-                    if (value != null) {
-                      context.read<CompraController>().addCompra(value);
-                    }
-                  },
+                  onSelect: context.read<CompraController>().addCompra,
+                ),
+              );
+            },
+          ),
+          ExpandableFabItem(
+            icon: Icons.task_alt,
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (_) => AddTarefaDialog(
+                  onSelect: context.read<TarefasController>().addTarefa,
                 ),
               );
             },
@@ -93,13 +102,13 @@ class MainScreen extends StatelessWidget {
                 unSelectedColor: AppColors.greySecondary,
               ),
               BottomBarItem(
-                icon: Icon(Icons.pie_chart_outline),
+                icon: Icon(Icons.task_alt),
                 title: Text('Tarefas'),
                 selectedColor: AppColors.primaryColor,
                 unSelectedColor: AppColors.greySecondary,
               ),
               BottomBarItem(
-                icon: Icon(Icons.attach_money),
+                icon: Icon(Icons.shopping_cart_outlined),
                 title: Text('Compras'),
                 selectedColor: AppColors.primaryColor,
                 unSelectedColor: AppColors.greySecondary,

@@ -1,11 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:organizzer/core/formatters/date_formatter.dart';
 import 'package:organizzer/entities/tarefa_entity.dart';
 import 'package:organizzer/resources/colors.dart';
-import 'package:organizzer/resources/constants.dart';
 
 class TarefaTile extends StatelessWidget {
   final TarefaEntity tarefa;
-  const TarefaTile({super.key, required this.tarefa});
+  final Function(TarefaEntity) onTap;
+  final Function(TarefaEntity)? onLongTap;
+  final bool _collapsed;
+
+  const TarefaTile({
+    super.key,
+    required this.tarefa,
+    required this.onTap,
+    this.onLongTap,
+  }) : _collapsed = false;
 
   Widget get _getIcon {
     if (tarefa.done) {
@@ -38,30 +47,30 @@ class TarefaTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Container(
-          height: 30,
-          width: 30,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: _getColor,
-            border: Border.all(
-              color: _getBorderColor,
-            ),
-          ),
-          child: _getIcon,
-        ),
-        SizedBox(width: kMainPadding),
-        Expanded(
-          child: Text(
-            tarefa.nome,
-            style: TextStyle(decoration: _getLineThrough),
+    return ListTile(
+      contentPadding: _collapsed ? EdgeInsets.zero : null,
+      leading: AnimatedContainer(
+        duration: const Duration(milliseconds: 100),
+        height: 30,
+        width: 30,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: _getColor,
+          border: Border.all(
+            color: _getBorderColor,
           ),
         ),
-        SizedBox(width: kMainPadding),
-        Text('Abr 07'),
-      ],
+        child: _getIcon,
+      ),
+      trailing: Text(DateFormatter().miniDate(tarefa.createdAt)),
+      title: Text(
+        tarefa.nome,
+        style: TextStyle(
+          decoration: _getLineThrough,
+        ),
+      ),
+      onTap: () => onTap(tarefa),
+      onLongPress: () => onLongTap?.call(tarefa),
     );
   }
 }

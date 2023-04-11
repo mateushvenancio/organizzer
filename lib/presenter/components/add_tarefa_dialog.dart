@@ -1,28 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:organizzer/core/dto/create_compra_dto.dart';
+import 'package:organizzer/core/dto/create_tarefa_dto.dart';
 import 'package:organizzer/presenter/components/main_text_field.dart';
 
-class AddCompraDialog extends StatefulWidget {
-  final Function(CreateCompraDto) onSelect;
-  const AddCompraDialog({super.key, required this.onSelect});
+class AddTarefaDialog extends StatefulWidget {
+  final Function(CreateTarefaDto) onSelect;
+  const AddTarefaDialog({super.key, required this.onSelect});
 
   @override
-  State<AddCompraDialog> createState() => _AddCompraDialogState();
+  State<AddTarefaDialog> createState() => _AddTarefaDialogState();
 }
 
-class _AddCompraDialogState extends State<AddCompraDialog> {
+class _AddTarefaDialogState extends State<AddTarefaDialog> {
   final controller = TextEditingController();
   final focusNode = FocusNode();
   String? error;
 
-  returnCompra() {
+  _returnTarefa() {
     if (controller.text.isEmpty) {
       return setState(() {
-        error = 'Digite um nome para a compra';
+        error = 'Digite um nome para a tarefa';
       });
     }
-    widget.onSelect(CreateCompraDto(nome: controller.text));
+    widget.onSelect(CreateTarefaDto(controller.text));
     context.pop();
   }
 
@@ -37,13 +37,12 @@ class _AddCompraDialogState extends State<AddCompraDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text('Nova Compra'),
+      title: Text('Nova tarefa'),
       content: MainTextField(
-        hint: 'Título da compra',
         controller: controller,
-        errorText: error,
         focusNode: focusNode,
-        onEnter: () => returnCompra(),
+        errorText: error,
+        onEnter: () => _returnTarefa(),
       ),
       actions: [
         TextButton(
@@ -51,13 +50,8 @@ class _AddCompraDialogState extends State<AddCompraDialog> {
           child: Text('Cancelar'),
         ),
         TextButton(
-          onPressed: () => returnCompra(),
-          child: Text(
-            'Adicionar',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-            ),
-          ),
+          onPressed: () => _returnTarefa(),
+          child: Text('Adicionar'),
         ),
       ],
     );

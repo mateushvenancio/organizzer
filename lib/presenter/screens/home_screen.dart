@@ -82,8 +82,12 @@ class _HomeScreenState extends State<HomeScreen> {
                       return MainCardComponent(
                         title: 'Tarefas',
                         itens: controller.tarefas.map((e) {
-                          return TarefaTile(tarefa: e);
+                          return TarefaTile(
+                            tarefa: e,
+                            onTap: controller.editTarefa,
+                          );
                         }).toList(),
+                        verMais: () => context.read<HomeController>().setBottomBarIndex(2),
                       );
                     }),
                     SizedBox(height: kMainPadding),
@@ -96,9 +100,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             onTap: controller.editCompra,
                           );
                         }).toList(),
-                        verMais: () {
-                          context.read<HomeController>().setBottomBarIndex(3);
-                        },
+                        verMais: () => context.read<HomeController>().setBottomBarIndex(3),
                       );
                     }),
                   ],

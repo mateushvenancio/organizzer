@@ -132,6 +132,7 @@ class ExpandableFabItem extends StatelessWidget {
         color: AppColors.primaryColor,
         shape: CircleBorder(),
         child: InkWell(
+          borderRadius: BorderRadius.circular(45),
           onTap: onTap,
           child: Padding(
             padding: const EdgeInsets.all(8.0),

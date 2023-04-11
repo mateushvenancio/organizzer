@@ -27,7 +27,7 @@ class SharedPreferencesComprasRepository implements IComprasRepository {
       nome: dto.nome,
       descricao: dto.descricao,
       done: false,
-      created: DateTime.now(),
+      createdAt: DateTime.now(),
     );
 
     final compras = await getCompras();

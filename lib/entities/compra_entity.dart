@@ -1,5 +1,3 @@
-import 'dart:math';
-
 class CompraEntity {
   final String id;
   final String nome;
@@ -8,13 +6,12 @@ class CompraEntity {
   final bool done;
 
   CompraEntity({
-    String? id,
+    required this.id,
     required this.nome,
     this.descricao,
-    DateTime? created,
+    required this.createdAt,
     this.done = false,
-  })  : id = id ?? Random().nextInt(9999).toString(),
-        createdAt = created ?? DateTime.now();
+  });
 
   CompraEntity copyWith({
     String? nome,
@@ -25,7 +22,7 @@ class CompraEntity {
       id: id,
       nome: nome ?? this.nome,
       descricao: descricao ?? this.descricao,
-      created: createdAt,
+      createdAt: createdAt,
       done: done ?? this.done,
     );
   }

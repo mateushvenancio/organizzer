@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:organizzer/datasource/local_datasource/shared_preferences_compras_repository.dart';
+import 'package:organizzer/datasource/local_datasource/shared_preferences_tarefas_repository.dart';
 import 'package:organizzer/presenter/controllers/compra_controller.dart';
 import 'package:organizzer/presenter/controllers/home_controller.dart';
 import 'package:organizzer/presenter/controllers/tarefas_controller.dart';
@@ -12,6 +13,7 @@ import 'package:organizzer/presenter/screens/qr_code_screen.dart';
 import 'package:organizzer/presenter/screens/splash_screen.dart';
 import 'package:organizzer/presenter/screens/whatsapp_screen.dart';
 import 'package:organizzer/repositories/i_compras_repository.dart';
+import 'package:organizzer/repositories/i_tarefas_repository.dart';
 import 'package:organizzer/resources/colors.dart';
 import 'package:provider/provider.dart';
 
@@ -20,8 +22,9 @@ void main() {
     MultiProvider(
       providers: [
         Provider<IComprasRepository>(create: (_) => SharedPreferencesComprasRepository()),
+        Provider<ITarefasRepository>(create: (_) => SharedPreferencesTarefasRepository()),
         ChangeNotifierProvider(create: (_) => HomeController()),
-        ChangeNotifierProvider(create: (_) => TarefasController()),
+        ChangeNotifierProvider(create: (context) => TarefasController(context.read<ITarefasRepository>())),
         ChangeNotifierProvider(create: (context) => CompraController(context.read<IComprasRepository>())),
       ],
       child: const MyApp(),
@@ -60,6 +63,9 @@ final _router = GoRouter(
         return SplashScreen(
           onLoad: () async {
             await context.read<CompraController>().init();
+            if (context.mounted) {
+              await context.read<TarefasController>().init();
+            }
           },
         );
       },
