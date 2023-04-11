@@ -14,8 +14,6 @@ import 'package:stylish_bottom_bar/stylish_bottom_bar.dart';
 class MainScreen extends StatelessWidget {
   const MainScreen({super.key});
 
-  _createOverlayEntry() {}
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,26 +31,45 @@ class MainScreen extends StatelessWidget {
           );
         },
       ),
-      floatingActionButton: Consumer<CompraController>(
-        builder: (context, controller, child) {
-          return FloatingActionButton(
-            onPressed: () {
+      floatingActionButton: ExpandableFab(
+        children: [
+          ExpandableFabItem(
+            icon: Icons.attach_money,
+            onTap: () {
               showDialog(
                 context: context,
                 builder: (_) => AddCompraDialog(
                   onSelect: (value) {
                     if (value != null) {
-                      controller.addCompra(value);
+                      context.read<CompraController>().addCompra(value);
                     }
                   },
                 ),
               );
             },
-            backgroundColor: AppColors.primaryColor,
-            child: Icon(Icons.add),
-          );
-        },
+          ),
+        ],
       ),
+      // floatingActionButton: Consumer<CompraController>(
+      //   builder: (context, controller, child) {
+      //     return FloatingActionButton(
+      //       onPressed: () {
+      //         showDialog(
+      //           context: context,
+      //           builder: (_) => AddCompraDialog(
+      //             onSelect: (value) {
+      //               if (value != null) {
+      //                 controller.addCompra(value);
+      //               }
+      //             },
+      //           ),
+      //         );
+      //       },
+      //       backgroundColor: AppColors.primaryColor,
+      //       child: Icon(Icons.add),
+      //     );
+      //   },
+      // ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       extendBody: true,
       bottomNavigationBar: Consumer<HomeController>(

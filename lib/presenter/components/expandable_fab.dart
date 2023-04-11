@@ -13,29 +13,39 @@ class ExpandableFab extends StatefulWidget {
 class _ExpandableFabState extends State<ExpandableFab> with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
   late final Animation<double> _animation;
-  late final _ConteudoOverlay _overlayEntry;
+  OverlayEntry? _overlayEntry;
   bool _open = false;
 
-  _toggle() {
+  _insertOverlay() {
+    _controller.forward();
+    _overlayEntry = OverlayEntry(
+      builder: (_) => _WidgetItens(
+        dismiss: _removeOverlay,
+        animation: _animation,
+        children: widget.children,
+      ),
+    );
+    Overlay.of(context).insert(_overlayEntry!);
     setState(() {
-      _open = !_open;
+      _open = true;
     });
+  }
 
-    if (_overlayEntry.mounted) {
-      _overlayEntry.remove();
+  _removeOverlay() async {
+    await _controller.reverse();
+    _overlayEntry?.remove();
+    _overlayEntry = null;
+    setState(() {
+      _open = false;
+    });
+  }
+
+  _toggle() {
+    if (_overlayEntry == null) {
+      _insertOverlay();
     } else {
-      Overlay.of(context).insert(_overlayEntry);
+      _removeOverlay();
     }
-
-    // if (_open) {
-    //   await _controller.forward();
-    //   _overlayEntry.remove();
-    // } else {
-    //   await _controller.reverse();
-    //   if (mounted) {
-    //     Overlay.of(context).insert(_overlayEntry);
-    //   }
-    // }
   }
 
   Widget _icone() {
@@ -60,43 +70,45 @@ class _ExpandableFabState extends State<ExpandableFab> with SingleTickerProvider
       curve: Curves.easeIn,
       reverseCurve: Curves.easeOut,
     );
-    _overlayEntry = _ConteudoOverlay(
-      _WidgetItens(
-        dismiss: _toggle,
-        animation: _animation,
-        children: widget.children,
-      ),
-    );
     // _buildIcons();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      alignment: Alignment.bottomCenter,
-      clipBehavior: Clip.none,
-      children: [
-        FloatingActionButton(
-          onPressed: () => _toggle(),
-          backgroundColor: Colors.red,
-          child: _icone(),
-        ),
-        // _buildIcons(),
-        IgnorePointer(
-          ignoring: _open,
-          child: AnimatedOpacity(
-            duration: const Duration(milliseconds: 100),
-            opacity: _open ? 0 : 1,
-            child: FloatingActionButton(
-              heroTag: null,
-              backgroundColor: AppColors.primaryColor,
-              onPressed: () => _toggle(),
-              child: _icone(),
+    return WillPopScope(
+      onWillPop: () async {
+        if (_overlayEntry != null) {
+          _removeOverlay();
+          return false;
+        }
+        return true;
+      },
+      child: Stack(
+        alignment: Alignment.bottomCenter,
+        clipBehavior: Clip.none,
+        children: [
+          FloatingActionButton(
+            onPressed: () => _toggle(),
+            backgroundColor: Colors.red,
+            child: _icone(),
+          ),
+          // _buildIcons(),
+          IgnorePointer(
+            ignoring: _open,
+            child: AnimatedOpacity(
+              duration: const Duration(milliseconds: 100),
+              opacity: _open ? 0 : 1,
+              child: FloatingActionButton(
+                heroTag: null,
+                backgroundColor: AppColors.primaryColor,
+                onPressed: () => _toggle(),
+                child: _icone(),
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
@@ -131,10 +143,6 @@ class ExpandableFabItem extends StatelessWidget {
   }
 }
 
-class _ConteudoOverlay extends OverlayEntry {
-  _ConteudoOverlay(Widget child) : super(builder: (_) => child);
-}
-
 class _WidgetItens extends StatelessWidget {
   final Function() dismiss;
   final List<ExpandableFabItem> children;
@@ -156,14 +164,27 @@ class _WidgetItens extends StatelessWidget {
           GestureDetector(
             behavior: HitTestBehavior.opaque,
             onTap: () => dismiss(),
-            child: Container(),
+            child: AnimatedBuilder(
+              animation: animation,
+              builder: (_, __) {
+                return Container(color: Colors.black.withOpacity(animation.value * 0.5));
+              },
+            ),
           ),
           Positioned(
             bottom: 100,
             child: SizeTransition(
               sizeFactor: animation,
               child: Column(
-                children: children,
+                children: children.map((e) {
+                  return ExpandableFabItem(
+                    icon: e.icon,
+                    onTap: () {
+                      dismiss();
+                      e.onTap();
+                    },
+                  );
+                }).toList(),
               ),
             ),
           ),
