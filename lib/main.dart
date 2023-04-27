@@ -4,10 +4,12 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:organizzer/datasource/local_datasource/shared_preferences_compras_repository.dart';
 import 'package:organizzer/datasource/local_datasource/shared_preferences_tarefas_repository.dart';
+import 'package:organizzer/presenter/controllers/calendario_controller.dart';
 import 'package:organizzer/presenter/controllers/compra_controller.dart';
 import 'package:organizzer/presenter/controllers/home_controller.dart';
 import 'package:organizzer/presenter/controllers/tarefas_controller.dart';
 import 'package:organizzer/presenter/screens/calculadora_screen.dart';
+import 'package:organizzer/presenter/screens/calendario_screen.dart';
 import 'package:organizzer/presenter/screens/main_screen.dart';
 import 'package:organizzer/presenter/screens/qr_code_screen.dart';
 import 'package:organizzer/presenter/screens/splash_screen.dart';
@@ -26,6 +28,7 @@ void main() {
         ChangeNotifierProvider(create: (_) => HomeController()),
         ChangeNotifierProvider(create: (context) => TarefasController(context.read<ITarefasRepository>())),
         ChangeNotifierProvider(create: (context) => CompraController(context.read<IComprasRepository>())),
+        ChangeNotifierProvider(create: (context) => CalendarioController()),
       ],
       child: const MyApp(),
     ),
@@ -85,6 +88,10 @@ final _router = GoRouter(
     GoRoute(
       path: '/calculadora',
       builder: (context, state) => CalculadoraScreen(),
+    ),
+    GoRoute(
+      path: '/calendario',
+      builder: (context, state) => CalendarioScreen(),
     ),
   ],
 );

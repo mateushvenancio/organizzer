@@ -34,7 +34,10 @@ class _HomeScreenState extends State<HomeScreen> {
         icon: Icons.calculate_outlined,
         onTap: () => context.push('/calculadora'),
       ),
-      _AtalhoModel(icon: FontAwesomeIcons.noteSticky, onTap: () {}),
+      _AtalhoModel(
+        icon: FontAwesomeIcons.calendar,
+        onTap: () => context.push('/calendario'),
+      ),
     ];
   }
 
