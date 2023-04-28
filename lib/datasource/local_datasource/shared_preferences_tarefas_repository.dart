@@ -14,10 +14,10 @@ class SharedPreferencesTarefasRepository implements ITarefasRepository {
 
   _saveTarefas(List<TarefaEntity> tarefas) async {
     final prefs = await SharedPreferences.getInstance();
-    final List<String> tarefasJson = tarefas.map((e) {
-      return jsonEncode(conversor.to(e));
+    final List<Map<String, dynamic>> tarefasJson = tarefas.map((e) {
+      return conversor.to(e);
     }).toList();
-    await prefs.setStringList(tarefasKey, tarefasJson);
+    await prefs.setString(tarefasKey, jsonEncode(tarefasJson));
   }
 
   @override
@@ -52,9 +52,10 @@ class SharedPreferencesTarefasRepository implements ITarefasRepository {
   @override
   Future<List<TarefaEntity>> getTarefas() async {
     final prefs = await SharedPreferences.getInstance();
-    final tarefas = prefs.getStringList(tarefasKey) ?? [];
-    return tarefas.map((e) {
-      return conversor.from(jsonDecode(e));
+    final tarefas = prefs.getString(tarefasKey) ?? '[]';
+    final List<Map<String, dynamic>> result = [...jsonDecode(tarefas)];
+    return result.map((e) {
+      return conversor.from(e);
     }).toList();
   }
 }
