@@ -20,18 +20,29 @@ class TarefasHomeWidget : AppWidgetProvider() {
         appWidgetManager: AppWidgetManager,
         appWidgetIds: IntArray
     ) {
+        super.onUpdate(context, appWidgetManager, appWidgetIds)
+
+        Log.d("VenancioChannel", "passou no update!")
+
         // There may be multiple widgets active, so update all of them
         for (appWidgetId in appWidgetIds) {
             updateAppWidget(context, appWidgetManager, appWidgetId)
         }
+
+        appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds,R.id.itensLista )
     }
 
     override fun onEnabled(context: Context) {
-        // Para fazer, eu acho
+        Log.d("VenancioChannel", "passou no onEnabled!")
     }
 
     override fun onDisabled(context: Context) {
-        // Enter relevant functionality for when the last widget is disabled
+        Log.d("VenancioChannel", "passou no onDisables!")
+    }
+
+    override fun onReceive(context: Context?, intent: Intent?) {
+        Log.d("VenancioChannel", "passou no onReceive!")
+        super.onReceive(context, intent)
     }
 }
 
@@ -69,10 +80,12 @@ class TarefasAdaptador(
     private var tarefas: List<TarefaModel> = emptyList()
 
     init {
+        Log.d("MateusVenancio", "Chamou no construtor")
         tarefas = getTarefas(context).toList()
     }
 
     override fun getViewAt(position: Int): RemoteViews {
+        Log.d("MateusVenancio", "Construiu view: $position")
         val view = RemoteViews(context.packageName, R.layout.lista_item)
 
         val tarefa = tarefas[position]
@@ -92,13 +105,21 @@ class TarefasAdaptador(
 
     override fun getItemId(position: Int): Long = position.toLong()
 
-    override fun hasStableIds(): Boolean = true
+    override fun hasStableIds(): Boolean = false
 
     override fun getCount(): Int = tarefas.size // items.size
 
-    override fun onCreate() {}
+    override fun onCreate() {
+        Log.d("MateusVenancio", "onCreate Adaptador")
+        tarefas = getTarefas(context).toList()
+        Log.d("MateusVenancio", "Depois: onCreate Adaptador")
+    }
 
-    override fun onDataSetChanged() {}
+    override fun onDataSetChanged() {
+        Log.d("MateusVenancio", "dataSetChanged Adaptador")
+        tarefas = getTarefas(context).toList()
+        Log.d("MateusVenancio", "Depois: dataSetChanged Adaptador")
+    }
 
     override fun onDestroy() {}
 
