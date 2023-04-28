@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:organizzer/core/dto/create_tarefa_dto.dart';
 import 'package:organizzer/core/dto/edit_tarefa_dto.dart';
@@ -12,6 +13,7 @@ class TarefasController extends ChangeNotifier {
 
   init() async {
     tarefas = await tarefasRepository.getTarefas();
+    log("Tarefas: $tarefas", name: "MateusFlutter");
     notifyListeners();
   }
 

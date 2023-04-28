@@ -5,6 +5,7 @@ import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.Intent
+import android.util.Log
 import android.widget.*
 import com.example.organizzer.models.TarefaModel
 import com.google.gson.Gson
@@ -40,6 +41,7 @@ internal fun updateAppWidget(
     appWidgetId: Int
 ) {
     val tarefas = getTarefas(context).toList()
+    Log.d("MateusVenancio", "Tarefas: $tarefas")
 
     val intent = Intent(context, TarefasWidgetService::class.java)
 
@@ -54,6 +56,7 @@ internal fun updateAppWidget(
 private fun getTarefas(context: Context): Array<TarefaModel> {
     val conteudo = context.getSharedPreferences("FlutterSharedPreferences", MODE_PRIVATE)
     val resultado = conteudo.getString("flutter.TAREFAS_DB", "[]") ?: "[]"
+    Log.d("MateusVenancio", "Resultado SharPrefs: $resultado")
     val tipo = object : TypeToken<List<TarefaModel>>() {}.type
     return Gson().fromJson<List<TarefaModel>>(resultado, tipo).toTypedArray()
 }

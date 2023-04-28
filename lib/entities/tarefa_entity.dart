@@ -22,4 +22,9 @@ class TarefaEntity {
       createdAt: createdAt,
     );
   }
+
+  @override
+  String toString() {
+    return 'TarefaEntity(id: $id, nome: $nome, done: $done, createdAt: $createdAt)';
+  }
 }
