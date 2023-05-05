@@ -10,7 +10,7 @@ import 'package:organizzer/resources/constants.dart';
 class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String? title;
   final Widget? leading;
-  final List<MainAppBarItem>? menuItems;
+  final List<Widget>? menuItems;
 
   const MainAppBar({super.key, this.title, this.leading, this.menuItems});
 
@@ -22,16 +22,13 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   Widget get buildMenu {
-    if (menuItems == null) return Container();
-    if (menuItems?.isEmpty ?? true) return Container();
+    // if (menuItems == null) return Container();
+    // if (menuItems?.isEmpty ?? true) return Container();
 
     // return IconButton(onPressed: () {}, icon: Icon(Icons.more_horiz));
-    return GestureDetector(
-      onTap: () {},
-      child: CircleAvatar(
-        backgroundColor: Colors.transparent,
-        child: Icon(Icons.more_horiz, color: AppColors.primaryColor),
-      ),
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: menuItems ?? [],
     );
   }
 
@@ -79,12 +76,24 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }
 
-class MainAppBarItem {
-  final String label;
+class MainAppBarItem extends StatelessWidget {
+  final IconData icon;
   final VoidCallback onTap;
 
-  MainAppBarItem({
-    required this.label,
+  const MainAppBarItem({
+    super.key,
+    required this.icon,
     required this.onTap,
   });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: CircleAvatar(
+        backgroundColor: Colors.transparent,
+        child: Icon(icon, color: AppColors.primaryColor),
+      ),
+    );
+  }
 }

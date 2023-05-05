@@ -9,24 +9,32 @@ class TarefasController extends ChangeNotifier {
   final ITarefasRepository tarefasRepository;
   TarefasController(this.tarefasRepository);
 
-  List<TarefaEntity> tarefas = [];
+  List<TarefaEntity> _tarefas = [];
+  bool showDone = false;
+
+  List<TarefaEntity> get tarefas {
+    if (!showDone) {
+      return _tarefas.where((e) => !e.done).toList();
+    }
+    return _tarefas;
+  }
 
   init() async {
-    tarefas = await tarefasRepository.getTarefas();
+    _tarefas = await tarefasRepository.getTarefas();
     notifyListeners();
     atualizarHomeWidget();
   }
 
   addTarefa(CreateTarefaDto dto) async {
     final result = await tarefasRepository.createTarefa(dto);
-    tarefas.add(result);
+    _tarefas.add(result);
     notifyListeners();
     atualizarHomeWidget();
   }
 
   editTarefa(TarefaEntity value) async {
-    final index = tarefas.indexWhere((e) => e.id == value.id);
-    tarefas[index] = await tarefasRepository.editTarefa(
+    final index = _tarefas.indexWhere((e) => e.id == value.id);
+    _tarefas[index] = await tarefasRepository.editTarefa(
       EditTarefaDto(id: value.id, done: !value.done),
     );
     notifyListeners();
@@ -34,11 +42,25 @@ class TarefasController extends ChangeNotifier {
   }
 
   deleteTarefa(TarefaEntity value) async {
-    final index = tarefas.indexWhere((e) => e.id == value.id);
+    final index = _tarefas.indexWhere((e) => e.id == value.id);
     await tarefasRepository.deleteTarefa(value.id);
-    tarefas.removeAt(index);
+    _tarefas.removeAt(index);
     notifyListeners();
     atualizarHomeWidget();
+  }
+
+  deleteTarefasConcluidas() async {
+    final deletar = _tarefas.where((e) => e.done).toList();
+    for (final item in deletar) {
+      await deleteTarefa(item);
+    }
+    notifyListeners();
+    atualizarHomeWidget();
+  }
+
+  toggleShowArchived() {
+    showDone = !showDone;
+    notifyListeners();
   }
 
   atualizarHomeWidget() async {

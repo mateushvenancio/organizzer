@@ -6,14 +6,14 @@ import 'package:organizzer/resources/colors.dart';
 class TarefaTile extends StatelessWidget {
   final TarefaEntity tarefa;
   final Function(TarefaEntity) onTap;
-  final Function(TarefaEntity)? onLongTap;
+  final Function(TarefaEntity)? onDelete;
   final bool _collapsed;
 
   const TarefaTile({
     super.key,
     required this.tarefa,
     required this.onTap,
-    this.onLongTap,
+    this.onDelete,
   }) : _collapsed = false;
 
   Widget get _getIcon {
@@ -21,7 +21,7 @@ class TarefaTile extends StatelessWidget {
       return Icon(Icons.check, color: Colors.white);
     }
 
-    return Container();
+    return Icon(Icons.check, color: Colors.white);
   }
 
   Color get _getColor {
@@ -51,8 +51,8 @@ class TarefaTile extends StatelessWidget {
       contentPadding: _collapsed ? EdgeInsets.zero : null,
       leading: AnimatedContainer(
         duration: const Duration(milliseconds: 100),
-        height: 30,
-        width: 30,
+        height: double.infinity,
+        // width: 30,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           color: _getColor,
@@ -62,15 +62,25 @@ class TarefaTile extends StatelessWidget {
         ),
         child: _getIcon,
       ),
-      trailing: Text(DateFormatter().miniDate(tarefa.createdAt)),
+      // trailing: Text(DateFormatter().miniDate(tarefa.createdAt)),
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          IconButton(
+            onPressed: () => onDelete?.call(tarefa),
+            icon: Icon(Icons.delete_forever),
+          ),
+        ],
+      ),
       title: Text(
         tarefa.nome,
         style: TextStyle(
           decoration: _getLineThrough,
         ),
       ),
+      subtitle: Text(DateFormatter().miniDate(tarefa.createdAt)),
       onTap: () => onTap(tarefa),
-      onLongPress: () => onLongTap?.call(tarefa),
+      // onLongPress: () => onDelete?.call(tarefa),
     );
   }
 }

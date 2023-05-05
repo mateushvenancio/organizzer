@@ -12,7 +12,37 @@ class TarefasScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MainAppBar(title: 'Tarefas'),
+      appBar: MainAppBar(
+        title: 'Tarefas',
+        menuItems: [
+          MainAppBarItem(
+            icon: Icons.delete_outline,
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (_) {
+                  return YesNoDialog(
+                    title: 'Deletar itens concluídos?',
+                    onYes: () {
+                      context.read<TarefasController>().deleteTarefasConcluidas();
+                    },
+                  );
+                },
+              );
+            },
+          ),
+          Consumer<TarefasController>(
+            builder: (context, controller, child) {
+              return MainAppBarItem(
+                icon: controller.showDone ? Icons.check_circle_outline : Icons.check_circle,
+                onTap: () {
+                  controller.toggleShowArchived();
+                },
+              );
+            },
+          ),
+        ],
+      ),
       body: Consumer<TarefasController>(
         builder: (context, controller, child) {
           return RefreshIndicator(
@@ -24,7 +54,7 @@ class TarefasScreen extends StatelessWidget {
                 return TarefaTile(
                   tarefa: e,
                   onTap: controller.editTarefa,
-                  onLongTap: (value) {
+                  onDelete: (value) {
                     showDialog(
                       context: context,
                       builder: (_) {

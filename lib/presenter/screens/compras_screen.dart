@@ -14,7 +14,7 @@ class ComprasScreen extends StatelessWidget {
       appBar: MainAppBar(
         title: 'Compras',
         menuItems: [
-          MainAppBarItem(label: 'Excluir concluídos', onTap: () {}),
+          MainAppBarItem(icon: Icons.ac_unit, onTap: () {}),
         ],
       ),
       body: Consumer<CompraController>(
