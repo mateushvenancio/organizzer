@@ -1,35 +1,81 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:organizzer/core/dto/create_compra_dto.dart';
+import 'package:organizzer/core/dto/edit_compra_dto.dart';
+import 'package:organizzer/entities/compra_entity.dart';
 import 'package:organizzer/presenter/components/main_text_field.dart';
+import 'package:numberpicker/numberpicker.dart';
 
 class AddCompraDialog extends StatefulWidget {
-  final Function(CreateCompraDto) onSelect;
-  const AddCompraDialog({super.key, required this.onSelect});
+  final Function(CreateCompraDto) onCreate;
+  final Function(EditCompraDto)? onEdit;
+  final CompraEntity? compra;
+
+  const AddCompraDialog({
+    super.key,
+    this.onEdit,
+    this.compra,
+    required this.onCreate,
+  });
 
   @override
   State<AddCompraDialog> createState() => _AddCompraDialogState();
 }
 
 class _AddCompraDialogState extends State<AddCompraDialog> {
-  final controller = TextEditingController();
-  final focusNode = FocusNode();
-  String? error;
+  final tituloController = TextEditingController();
+  final precoController = TextEditingController();
+
+  final tituloNode = FocusNode();
+  final precoNode = FocusNode();
+
+  String? tituloError;
+  String? precoError;
+
+  int quantidade = 1;
 
   returnCompra() {
-    if (controller.text.isEmpty) {
+    final preco = double.tryParse(precoController.text.replaceAll(',', '.'));
+
+    if (tituloController.text.isEmpty) {
       return setState(() {
-        error = 'Digite um nome para a compra';
+        tituloError = 'Digite um nome para a compra';
       });
     }
-    widget.onSelect(CreateCompraDto(nome: controller.text));
+
+    if (widget.compra == null) {
+      widget.onCreate(
+        CreateCompraDto(
+          nome: tituloController.text,
+          quantidade: quantidade,
+          preco: preco ?? 0,
+        ),
+      );
+    } else {
+      widget.onEdit?.call(
+        EditCompraDto(
+          id: widget.compra!.id,
+          done: widget.compra!.done,
+          nome: tituloController.text,
+          preco: preco ?? 0,
+          quantidade: quantidade,
+        ),
+      );
+    }
     context.pop();
   }
 
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      focusNode.requestFocus();
+      if (widget.compra != null) {
+        tituloController.text = widget.compra!.nome;
+        precoController.text = widget.compra!.preco.toString();
+        quantidade = widget.compra!.quantidade;
+      }
+      setState(() {
+        tituloNode.requestFocus();
+      });
     });
     super.initState();
   }
@@ -37,13 +83,41 @@ class _AddCompraDialogState extends State<AddCompraDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text('Nova Compra'),
-      content: MainTextField(
-        hint: 'Título da compra',
-        controller: controller,
-        errorText: error,
-        focusNode: focusNode,
-        onEnter: () => returnCompra(),
+      title: Text(widget.compra == null ? 'Nova Compra' : 'Editar Compra'),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          MainTextField(
+            hint: 'Título da compra',
+            controller: tituloController,
+            errorText: tituloError,
+            focusNode: tituloNode,
+            onEnter: () {
+              precoNode.requestFocus();
+            },
+          ),
+          MainTextField(
+            hint: 'Preço',
+            controller: precoController,
+            focusNode: precoNode,
+            errorText: precoError,
+            onEnter: () => returnCompra(),
+            inputType: TextInputType.numberWithOptions(signed: true, decimal: true),
+          ),
+          NumberPicker(
+            minValue: 1,
+            maxValue: 50,
+            onChanged: (value) {
+              setState(() {
+                quantidade = value;
+              });
+            },
+            value: quantidade,
+            axis: Axis.horizontal,
+            infiniteLoop: true,
+            haptics: true,
+          ),
+        ],
       ),
       actions: [
         TextButton(

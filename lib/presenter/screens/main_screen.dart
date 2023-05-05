@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:organizzer/presenter/components/add_compra_dialog.dart';
 import 'package:organizzer/presenter/components/add_tarefa_dialog.dart';
 import 'package:organizzer/presenter/components/expandable_fab.dart';
@@ -47,7 +46,7 @@ class _MainScreenState extends State<MainScreen> {
               showDialog(
                 context: context,
                 builder: (_) => AddCompraDialog(
-                  onSelect: context.read<CompraController>().addCompra,
+                  onCreate: context.read<CompraController>().addCompra,
                 ),
               );
             },

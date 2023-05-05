@@ -20,17 +20,19 @@ class CompraController extends ChangeNotifier {
     return compras.getRange(0, 3).toList();
   }
 
+  double get total {
+    return compras.fold<double>(0, (p, e) => p + (e.quantidade * e.preco));
+  }
+
   addCompra(CreateCompraDto value) async {
     final novo = await repository.createCompra(value);
     compras.add(novo);
     notifyListeners();
   }
 
-  editCompra(CompraEntity value) async {
+  editCompra(EditCompraDto value) async {
     final index = compras.indexWhere((e) => e.id == value.id);
-    compras[index] = await repository.editCompra(
-      EditCompraDto(id: value.id, done: !value.done),
-    );
+    compras[index] = await repository.editCompra(value);
     notifyListeners();
   }
 
@@ -38,6 +40,12 @@ class CompraController extends ChangeNotifier {
     final index = compras.indexWhere((e) => e.id == value.id);
     await repository.deleteCompra(value.id);
     compras.removeAt(index);
+    notifyListeners();
+  }
+
+  deleteTodos() async {
+    await repository.deleteTodos();
+    compras.clear();
     notifyListeners();
   }
 }

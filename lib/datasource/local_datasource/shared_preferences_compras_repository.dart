@@ -25,7 +25,8 @@ class SharedPreferencesComprasRepository implements IComprasRepository {
     final novaCompra = CompraEntity(
       id: generateUuid(),
       nome: dto.nome,
-      descricao: dto.descricao,
+      preco: dto.preco,
+      quantidade: dto.quantidade,
       done: false,
       createdAt: DateTime.now(),
     );
@@ -47,7 +48,12 @@ class SharedPreferencesComprasRepository implements IComprasRepository {
   Future<CompraEntity> editCompra(EditCompraDto dto) async {
     final compras = await getCompras();
     final index = compras.indexWhere((e) => e.id == dto.id);
-    compras[index] = compras[index].copyWith(done: dto.done);
+    compras[index] = compras[index].copyWith(
+      done: dto.done,
+      nome: dto.nome,
+      preco: dto.preco,
+      quantidade: dto.quantidade,
+    );
     await _saveCompras(compras);
     return compras[index];
   }
@@ -61,5 +67,10 @@ class SharedPreferencesComprasRepository implements IComprasRepository {
       aaa;
       return compraConversor.from(aaa);
     }).toList();
+  }
+
+  @override
+  Future<void> deleteTodos() async {
+    await _saveCompras([]);
   }
 }

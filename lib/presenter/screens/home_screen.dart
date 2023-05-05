@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
+import 'package:organizzer/core/dto/edit_compra_dto.dart';
 import 'package:organizzer/presenter/components/compra_tile.dart';
 import 'package:organizzer/presenter/components/main_card_component.dart';
 import 'package:organizzer/presenter/components/tarefa_tile.dart';
@@ -94,7 +94,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       return MainCardComponent(
                         title: 'Tarefas',
                         itens: controller.tarefas.map((e) {
-                          return TarefaTile(
+                          return TarefaTile.collapse(
                             tarefa: e,
                             onTap: controller.editTarefa,
                           );
@@ -109,7 +109,12 @@ class _HomeScreenState extends State<HomeScreen> {
                         itens: controller.topCompras.map((e) {
                           return CompraTile.collapsed(
                             compra: e,
-                            onTap: controller.editCompra,
+                            onTap: (value) {
+                              controller.editCompra(EditCompraDto(
+                                id: value.id,
+                                done: !value.done,
+                              ));
+                            },
                           );
                         }).toList(),
                         verMais: () => context.read<HomeController>().setBottomBarIndex(3),

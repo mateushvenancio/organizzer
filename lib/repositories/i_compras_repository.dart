@@ -7,4 +7,5 @@ abstract class IComprasRepository {
   Future<CompraEntity> createCompra(CreateCompraDto dto);
   Future<CompraEntity> editCompra(EditCompraDto dto);
   Future<void> deleteCompra(String id);
+  Future<void> deleteTodos();
 }

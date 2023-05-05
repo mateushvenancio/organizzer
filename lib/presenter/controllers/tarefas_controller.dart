@@ -10,7 +10,7 @@ class TarefasController extends ChangeNotifier {
   TarefasController(this.tarefasRepository);
 
   List<TarefaEntity> _tarefas = [];
-  bool showDone = false;
+  bool showDone = true;
 
   List<TarefaEntity> get tarefas {
     if (!showDone) {

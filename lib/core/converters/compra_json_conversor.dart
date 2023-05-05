@@ -7,7 +7,8 @@ class CompraJsonConversor implements Conversor<Map<String, dynamic>, CompraEntit
     return CompraEntity(
       id: input['id'],
       nome: input['nome'],
-      descricao: input['descricao'],
+      preco: input['preco'],
+      quantidade: input['quantidade'],
       createdAt: DateTime.parse(input['createdAt']),
       done: input['done'],
     );
@@ -19,7 +20,8 @@ class CompraJsonConversor implements Conversor<Map<String, dynamic>, CompraEntit
       'id': input.id,
       'nome': input.nome,
       'createdAt': input.createdAt.toString(),
-      'descricao': input.descricao,
+      'preco': input.preco,
+      'quantidade': input.quantidade,
       'done': input.done,
     };
   }

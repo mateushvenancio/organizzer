@@ -16,6 +16,13 @@ class TarefaTile extends StatelessWidget {
     this.onDelete,
   }) : _collapsed = false;
 
+  const TarefaTile.collapse({
+    super.key,
+    required this.tarefa,
+    required this.onTap,
+    this.onDelete,
+  }) : _collapsed = true;
+
   Widget get _getIcon {
     if (tarefa.done) {
       return Icon(Icons.check, color: Colors.white);

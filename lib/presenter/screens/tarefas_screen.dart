@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:organizzer/presenter/components/main_app_bar.dart';
 import 'package:organizzer/presenter/components/tarefa_tile.dart';
 import 'package:organizzer/presenter/components/yes_no_dialog.dart';
