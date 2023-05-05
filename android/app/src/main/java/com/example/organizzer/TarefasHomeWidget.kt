@@ -1,5 +1,6 @@
 package com.example.organizzer
 
+import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
@@ -10,6 +11,8 @@ import android.widget.*
 import com.example.organizzer.models.TarefaModel
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import io.flutter.plugin.common.MethodChannel
+
 
 /**
  * Implementation of App Widget functionality.
@@ -29,7 +32,7 @@ class TarefasHomeWidget : AppWidgetProvider() {
             updateAppWidget(context, appWidgetManager, appWidgetId)
         }
 
-        appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds,R.id.itensLista )
+        appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.itensLista)
     }
 
     override fun onEnabled(context: Context) {
@@ -59,6 +62,24 @@ internal fun updateAppWidget(
     val views = RemoteViews(context.packageName, R.layout.tarefas_home_widget)
     views.setTextViewText(R.id.tituloLista, "Tarefas (${tarefas.size})")
     views.setRemoteAdapter(R.id.itensLista, intent)
+
+    // botao abrir app
+     val intentBotao = context.packageManager.getLaunchIntentForPackage("com.example.organizzer")!!
+//    val intentBotao = Intent(context, MainActivity::class.java)
+    intentBotao.action = Intent.ACTION_VIEW
+    intentBotao.putExtra("origem", "add_tarefa")
+    val pendingIntent = PendingIntent.getActivity(
+        context,
+        0,
+        intentBotao,
+        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
+    )
+//    pendingIntent.send()
+//    val channel = MethodChannel( flutterView , "CANAL")
+//    val dados = hashMapOf<String, Any>()
+//    dados["meu_dado_extra"] = "valor do dado"
+//    channel.invokeMethod("InitialParam", dados)
+    views.setOnClickPendingIntent(R.id.botao_abrir_tarefas, pendingIntent)
 
     // Instruct the widget manager to update the widget
     appWidgetManager.updateAppWidget(appWidgetId, views)
@@ -94,7 +115,7 @@ class TarefasAdaptador(
         // val criadoEm = LocalDate.parse(tarefa.createdAt).format(formatter)
 
         view.setTextViewText(R.id.listaItemLabel, "• ${tarefa.nome}")
-        view.setTextViewText(R.id.listaItemDate, "")
+        view.setTextViewText(R.id.listaItemDate, if (tarefa.done) "Feito!" else "")
 
         return view
     }
@@ -136,7 +157,6 @@ class TarefasWidgetService : RemoteViewsService() {
         return TarefasAdaptador(this.applicationContext, intent)
     }
 }
-
 
 
 

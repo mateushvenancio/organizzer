@@ -1,5 +1,5 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:organizzer/core/dto/create_tarefa_dto.dart';
 import 'package:organizzer/core/dto/edit_tarefa_dto.dart';
 import 'package:organizzer/entities/tarefa_entity.dart';
@@ -13,14 +13,15 @@ class TarefasController extends ChangeNotifier {
 
   init() async {
     tarefas = await tarefasRepository.getTarefas();
-    log("Tarefas: $tarefas", name: "MateusFlutter");
     notifyListeners();
+    atualizarHomeWidget();
   }
 
   addTarefa(CreateTarefaDto dto) async {
     final result = await tarefasRepository.createTarefa(dto);
     tarefas.add(result);
     notifyListeners();
+    atualizarHomeWidget();
   }
 
   editTarefa(TarefaEntity value) async {
@@ -29,6 +30,7 @@ class TarefasController extends ChangeNotifier {
       EditTarefaDto(id: value.id, done: !value.done),
     );
     notifyListeners();
+    atualizarHomeWidget();
   }
 
   deleteTarefa(TarefaEntity value) async {
@@ -36,5 +38,11 @@ class TarefasController extends ChangeNotifier {
     await tarefasRepository.deleteTarefa(value.id);
     tarefas.removeAt(index);
     notifyListeners();
+    atualizarHomeWidget();
+  }
+
+  atualizarHomeWidget() async {
+    final channel = MethodChannel('CANAL');
+    await channel.invokeMethod('UpdateTarefasWidget');
   }
 }

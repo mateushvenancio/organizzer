@@ -17,8 +17,7 @@ class TarefasScreen extends StatelessWidget {
         builder: (context, controller, child) {
           return RefreshIndicator(
             onRefresh: () async {
-              final channel = MethodChannel('CANAL');
-              await channel.invokeMethod('UpdateTarefasWidget');
+              await controller.atualizarHomeWidget();
             },
             child: ListView(
               children: controller.tarefas.map((e) {

@@ -3,4 +3,6 @@
     <string name="appwidget_text">Título da lista</string>
     <string name="add_widget">Add widget</string>
     <string name="app_widget_description">This is an app widget description</string>
+    <string name="widget_tarefa_titulo">Carregando...</string>
+    <string name="descricao">Uma imagem</string>
 </resources>

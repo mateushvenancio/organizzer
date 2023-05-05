@@ -18,7 +18,8 @@
 
     <style name="Widget.Android.AppWidget.Container" parent="android:Widget">
         <item name="android:id">@android:id/background</item>
-        <item name="android:background">?android:attr/colorBackground</item>
+        <item name="android:background">@color/cor_fundo</item>
+        <!-- <item name="android:background">?android:attr/colorBackground</item> -->
     </style>
 
     <style name="Widget.Android.AppWidget.InnerView" parent="android:Widget">
