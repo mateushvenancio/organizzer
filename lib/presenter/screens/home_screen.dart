@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:organizzer/presenter/components/compra_tile.dart';
 import 'package:organizzer/presenter/components/main_card_component.dart';
@@ -34,7 +35,18 @@ class _HomeScreenState extends State<HomeScreen> {
         icon: Icons.calculate_outlined,
         onTap: () => context.push('/calculadora'),
       ),
-      _AtalhoModel(icon: FontAwesomeIcons.noteSticky, onTap: () {}),
+      _AtalhoModel(
+        icon: FontAwesomeIcons.noteSticky,
+        onTap: () async {
+          // try {
+          //   final channel = MethodChannel('CANAL');
+          //   final result = await channel.invokeMethod<String?>('InitialParam');
+          //   print('Tomara que tenha dado certo: $result');
+          // } catch (e) {
+          //   print('Tomara que tenha dado certo ERRO: $e');
+          // }
+        },
+      ),
     ];
   }
 

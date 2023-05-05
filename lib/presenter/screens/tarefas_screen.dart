@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:organizzer/presenter/components/main_app_bar.dart';
 import 'package:organizzer/presenter/components/tarefa_tile.dart';
 import 'package:organizzer/presenter/components/yes_no_dialog.dart';
@@ -14,24 +15,29 @@ class TarefasScreen extends StatelessWidget {
       appBar: MainAppBar(title: 'Tarefas'),
       body: Consumer<TarefasController>(
         builder: (context, controller, child) {
-          return ListView(
-            children: controller.tarefas.map((e) {
-              return TarefaTile(
-                tarefa: e,
-                onTap: controller.editTarefa,
-                onLongTap: (value) {
-                  showDialog(
-                    context: context,
-                    builder: (_) {
-                      return YesNoDialog(
-                        title: 'Deletar este item?',
-                        onYes: () => controller.deleteTarefa(value),
-                      );
-                    },
-                  );
-                },
-              );
-            }).toList(),
+          return RefreshIndicator(
+            onRefresh: () async {
+              await controller.atualizarHomeWidget();
+            },
+            child: ListView(
+              children: controller.tarefas.map((e) {
+                return TarefaTile(
+                  tarefa: e,
+                  onTap: controller.editTarefa,
+                  onLongTap: (value) {
+                    showDialog(
+                      context: context,
+                      builder: (_) {
+                        return YesNoDialog(
+                          title: 'Deletar este item?',
+                          onYes: () => controller.deleteTarefa(value),
+                        );
+                      },
+                    );
+                  },
+                );
+              }).toList(),
+            ),
           );
         },
       ),

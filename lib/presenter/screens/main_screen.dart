@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:organizzer/presenter/components/add_compra_dialog.dart';
 import 'package:organizzer/presenter/components/add_tarefa_dialog.dart';
 import 'package:organizzer/presenter/components/expandable_fab.dart';
@@ -13,9 +14,14 @@ import 'package:provider/provider.dart';
 import 'package:stylish_bottom_bar/model/bar_items.dart';
 import 'package:stylish_bottom_bar/stylish_bottom_bar.dart';
 
-class MainScreen extends StatelessWidget {
+class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
 
+  @override
+  State<MainScreen> createState() => _MainScreenState();
+}
+
+class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
