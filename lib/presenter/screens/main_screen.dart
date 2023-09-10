@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:organizzer/presenter/components/add_compra_dialog.dart';
-import 'package:organizzer/presenter/components/add_tarefa_dialog.dart';
-import 'package:organizzer/presenter/components/expandable_fab.dart';
 import 'package:organizzer/presenter/controllers/compra_controller.dart';
 import 'package:organizzer/presenter/controllers/home_controller.dart';
-import 'package:organizzer/presenter/controllers/tarefas_controller.dart';
 import 'package:organizzer/presenter/screens/compras_screen.dart';
+import 'package:organizzer/presenter/screens/config_screen.dart';
 import 'package:organizzer/presenter/screens/home_screen.dart';
-import 'package:organizzer/presenter/screens/tarefas_screen.dart';
 import 'package:organizzer/resources/colors.dart';
 import 'package:provider/provider.dart';
 import 'package:stylish_bottom_bar/model/bar_items.dart';
@@ -24,46 +21,56 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Consumer<HomeController>(
-        builder: (context, controller, child) {
-          return PageView(
-            controller: controller.pageController,
-            physics: NeverScrollableScrollPhysics(),
-            children: [
-              HomeScreen(),
-              Container(),
-              TarefasScreen(),
-              ComprasScreen(),
-            ],
+      body: PageView(
+        controller: context.read<HomeController>().pageController,
+        physics: NeverScrollableScrollPhysics(),
+        children: [
+          HomeScreen(),
+          ConfigScreen(),
+          Container(),
+          // TarefasScreen(),
+          ComprasScreen(),
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: AppColors.primaryColor,
+        child: Icon(Icons.add),
+        onPressed: () {
+          context.read<HomeController>().setBottomBarIndex(3);
+          showDialog(
+            context: context,
+            builder: (_) => AddCompraDialog(
+              onCreate: context.read<CompraController>().addCompra,
+            ),
           );
         },
       ),
-      floatingActionButton: ExpandableFab(
-        children: [
-          ExpandableFabItem(
-            icon: Icons.shopping_cart_outlined,
-            onTap: () {
-              showDialog(
-                context: context,
-                builder: (_) => AddCompraDialog(
-                  onCreate: context.read<CompraController>().addCompra,
-                ),
-              );
-            },
-          ),
-          ExpandableFabItem(
-            icon: Icons.task_alt,
-            onTap: () {
-              showDialog(
-                context: context,
-                builder: (_) => AddTarefaDialog(
-                  onSelect: context.read<TarefasController>().addTarefa,
-                ),
-              );
-            },
-          ),
-        ],
-      ),
+      // floatingActionButton: ExpandableFab(
+      //   children: [
+      //     ExpandableFabItem(
+      //       icon: Icons.shopping_cart_outlined,
+      //       onTap: () {
+      //         showDialog(
+      //           context: context,
+      //           builder: (_) => AddCompraDialog(
+      //             onCreate: context.read<CompraController>().addCompra,
+      //           ),
+      //         );
+      //       },
+      //     ),
+      //     ExpandableFabItem(
+      //       icon: Icons.task_alt,
+      //       onTap: () {
+      //         showDialog(
+      //           context: context,
+      //           builder: (_) => AddTarefaDialog(
+      //             onSelect: context.read<TarefasController>().addTarefa,
+      //           ),
+      //         );
+      //       },
+      //     ),
+      //   ],
+      // ),
       // floatingActionButton: Consumer<CompraController>(
       //   builder: (context, controller, child) {
       //     return FloatingActionButton(
@@ -107,11 +114,17 @@ class _MainScreenState extends State<MainScreen> {
                 unSelectedColor: AppColors.greySecondary,
               ),
               BottomBarItem(
-                icon: Icon(Icons.task_alt),
-                title: Text('Tarefas'),
+                icon: Icon(Icons.handyman_outlined),
+                title: Text('Funções'),
                 selectedColor: AppColors.primaryColor,
                 unSelectedColor: AppColors.greySecondary,
               ),
+              // BottomBarItem(
+              //   icon: Icon(Icons.task_alt),
+              //   title: Text('Tarefas'),
+              //   selectedColor: AppColors.primaryColor,
+              //   unSelectedColor: AppColors.greySecondary,
+              // ),
               BottomBarItem(
                 icon: Icon(Icons.shopping_cart_outlined),
                 title: Text('Compras'),
