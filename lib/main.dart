@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:organizzer/datasource/local_datasource/shared_preferences_compras_repository.dart';
 import 'package:organizzer/datasource/local_datasource/shared_preferences_config_repository.dart';
 import 'package:organizzer/datasource/sqflite_datasource/sqflite_compras_datasource.dart';
 import 'package:organizzer/presenter/controllers/compra_controller.dart';
