@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:organizzer/datasource/local_datasource/shared_preferences_compras_repository.dart';
 import 'package:organizzer/datasource/local_datasource/shared_preferences_config_repository.dart';
+import 'package:organizzer/datasource/sqflite_datasource/sqflite_compras_datasource.dart';
 import 'package:organizzer/presenter/controllers/compra_controller.dart';
 import 'package:organizzer/presenter/controllers/config_controller.dart';
 import 'package:organizzer/presenter/controllers/home_controller.dart';
@@ -21,7 +22,7 @@ void main() {
   runApp(
     MultiProvider(
       providers: [
-        Provider<IComprasRepository>(create: (_) => SharedPreferencesComprasRepository()),
+        Provider<IComprasRepository>(create: (_) => SqfliteComprasRepository()),
         Provider<IConfigRepository>(create: (_) => SharedPreferencesConfigRepository()),
         ChangeNotifierProvider(create: (_) => HomeController()),
         ChangeNotifierProvider(create: (context) => CompraController(context.read<IComprasRepository>())),

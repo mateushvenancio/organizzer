@@ -28,7 +28,6 @@ class _MainScreenState extends State<MainScreen> {
           HomeScreen(),
           ConfigScreen(),
           Container(),
-          // TarefasScreen(),
           ComprasScreen(),
         ],
       ),
@@ -45,52 +44,6 @@ class _MainScreenState extends State<MainScreen> {
           );
         },
       ),
-      // floatingActionButton: ExpandableFab(
-      //   children: [
-      //     ExpandableFabItem(
-      //       icon: Icons.shopping_cart_outlined,
-      //       onTap: () {
-      //         showDialog(
-      //           context: context,
-      //           builder: (_) => AddCompraDialog(
-      //             onCreate: context.read<CompraController>().addCompra,
-      //           ),
-      //         );
-      //       },
-      //     ),
-      //     ExpandableFabItem(
-      //       icon: Icons.task_alt,
-      //       onTap: () {
-      //         showDialog(
-      //           context: context,
-      //           builder: (_) => AddTarefaDialog(
-      //             onSelect: context.read<TarefasController>().addTarefa,
-      //           ),
-      //         );
-      //       },
-      //     ),
-      //   ],
-      // ),
-      // floatingActionButton: Consumer<CompraController>(
-      //   builder: (context, controller, child) {
-      //     return FloatingActionButton(
-      //       onPressed: () {
-      //         showDialog(
-      //           context: context,
-      //           builder: (_) => AddCompraDialog(
-      //             onSelect: (value) {
-      //               if (value != null) {
-      //                 controller.addCompra(value);
-      //               }
-      //             },
-      //           ),
-      //         );
-      //       },
-      //       backgroundColor: AppColors.primaryColor,
-      //       child: Icon(Icons.add),
-      //     );
-      //   },
-      // ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       extendBody: true,
       bottomNavigationBar: Consumer<HomeController>(
@@ -114,8 +67,8 @@ class _MainScreenState extends State<MainScreen> {
                 unSelectedColor: AppColors.greySecondary,
               ),
               BottomBarItem(
-                icon: Icon(Icons.handyman_outlined),
-                title: Text('Funções'),
+                icon: Icon(Icons.sell_outlined),
+                title: Text('Categorias'),
                 selectedColor: AppColors.primaryColor,
                 unSelectedColor: AppColors.greySecondary,
               ),
