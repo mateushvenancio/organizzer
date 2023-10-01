@@ -24,13 +24,36 @@ class _MainScreenState extends State<MainScreen> {
       body: PageView(
         controller: context.read<HomeController>().pageController,
         physics: NeverScrollableScrollPhysics(),
-        children: [
+        children: const [
           HomeScreen(),
           ConfigScreen(),
           CategoriasScreen(),
           ComprasScreen(),
         ],
       ),
+      // floatingActionButton: ExpandableFab(
+      //   children: [
+      //     ExpandableFabItem(
+      //       icon: Icons.shopping_cart_outlined,
+      //       onTap: () {
+      //         context.read<HomeController>().setBottomBarIndex(3);
+      //         context.push('/compra_form');
+      //       },
+      //     ),
+      //     ExpandableFabItem(
+      //       icon: Icons.sell_outlined,
+      //       onTap: () {
+      //         context.read<HomeController>().setBottomBarIndex(2);
+      //         showDialog(
+      //           context: context,
+      //           builder: (_) => AddCategoriaDialog(
+      //             onCreate: context.read<CategoriasController>().createCategoria,
+      //           ),
+      //         );
+      //       },
+      //     ),
+      //   ],
+      // ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: AppColors.primaryColor,
         child: Icon(Icons.add),

@@ -6,6 +6,7 @@ import 'package:organizzer/presenter/components/compra_tile.dart';
 import 'package:organizzer/presenter/components/main_app_bar.dart';
 import 'package:organizzer/presenter/components/yes_no_dialog.dart';
 import 'package:organizzer/presenter/controllers/compra_controller.dart';
+import 'package:organizzer/resources/colors.dart';
 import 'package:provider/provider.dart';
 
 class ComprasScreen extends StatelessWidget {
@@ -19,6 +20,7 @@ class ComprasScreen extends StatelessWidget {
         menuItems: [
           MainAppBarItem(
             icon: Icons.delete_forever_outlined,
+            iconColor: AppColors.primaryVariant,
             onTap: () {
               showDialog(
                 context: context,
@@ -44,12 +46,15 @@ class ComprasScreen extends StatelessWidget {
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 16),
+                    Container(
+                      color: Color(item.key.cor),
+                      padding: const EdgeInsets.symmetric(vertical: 8).copyWith(
+                        left: 16,
+                      ),
                       child: Text(
                         item.key.nome,
                         style: TextStyle(
-                          color: Color(item.key.cor),
+                          color: Color(item.key.cor).computeLuminance() > 0.5 ? Colors.black : Colors.white,
                           fontSize: 20,
                         ),
                       ),

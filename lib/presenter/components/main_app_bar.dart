@@ -79,11 +79,13 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
 class MainAppBarItem extends StatelessWidget {
   final IconData icon;
   final VoidCallback onTap;
+  final Color? iconColor;
 
   const MainAppBarItem({
     super.key,
     required this.icon,
     required this.onTap,
+    this.iconColor,
   });
 
   @override
@@ -92,7 +94,10 @@ class MainAppBarItem extends StatelessWidget {
       onTap: onTap,
       child: CircleAvatar(
         backgroundColor: Colors.transparent,
-        child: Icon(icon, color: AppColors.primaryColor),
+        child: Icon(
+          icon,
+          color: iconColor ?? AppColors.primaryColor,
+        ),
       ),
     );
   }

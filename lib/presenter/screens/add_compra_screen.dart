@@ -177,8 +177,17 @@ class _CompraFormScreenState extends State<CompraFormScreen> {
                       categoria = value;
                     });
                   },
-                  activeColor: Color(e.cor),
-                  title: Text(e.nome),
+                  activeColor: AppColors.greySecondary,
+                  title: Row(
+                    children: [
+                      Icon(
+                        Icons.sell,
+                        color: Color(e.cor),
+                      ),
+                      SizedBox(width: 16),
+                      Text(e.nome),
+                    ],
+                  ),
                 );
               }).toList(),
             ),
@@ -189,11 +198,17 @@ class _CompraFormScreenState extends State<CompraFormScreen> {
         children: [
           SizedBox(width: 16),
           Expanded(
-            child: PrimaryButton(onTap: () {}, text: 'CANCELAR'),
+            child: PrimaryButton(
+              onTap: () => context.pop(),
+              text: 'CANCELAR',
+            ),
           ),
           SizedBox(width: 8),
           Expanded(
-            child: PrimaryButton(onTap: () {}, text: 'OK'),
+            child: PrimaryButton(
+              onTap: () => returnCompra(),
+              text: 'OK',
+            ),
           ),
           SizedBox(width: 16),
         ],

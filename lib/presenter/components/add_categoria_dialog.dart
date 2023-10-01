@@ -126,9 +126,19 @@ class _AddCategoriaDialogState extends State<AddCategoriaDialog> {
       actions: [
         TextButton(
           onPressed: () => context.pop(),
-          child: Text('Cancelar'),
+          child: Text(
+            'Cancelar',
+            style: TextStyle(
+              color: AppColors.primaryVariant,
+            ),
+          ),
         ),
-        TextButton(
+        ElevatedButton(
+          style: ButtonStyle(
+            backgroundColor: MaterialStatePropertyAll(
+              AppColors.primaryColor,
+            ),
+          ),
           onPressed: () => returnCategoria(),
           child: Text(
             'Adicionar',
@@ -136,7 +146,16 @@ class _AddCategoriaDialogState extends State<AddCategoriaDialog> {
               fontWeight: FontWeight.bold,
             ),
           ),
-        ),
+        )
+        // TextButton(
+        //   onPressed: () => returnCategoria(),
+        //   child: Text(
+        //     'Adicionar',
+        //     style: TextStyle(
+        //       fontWeight: FontWeight.bold,
+        //     ),
+        //   ),
+        // ),
       ],
     );
   }

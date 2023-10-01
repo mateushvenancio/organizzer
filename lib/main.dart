@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:organizzer/datasource/hive_datasource/hive_categorias_repository.dart';
 import 'package:organizzer/datasource/local_datasource/shared_preferences_categorias_repository.dart';
 import 'package:organizzer/datasource/local_datasource/shared_preferences_compras_repository.dart';
 import 'package:organizzer/datasource/local_datasource/shared_preferences_config_repository.dart';
@@ -100,28 +99,3 @@ final _router = GoRouter(
     ),
   ],
 );
-
-void _main() {
-  Map<String, List<Item>> s = {};
-}
-
-class Item {
-  final int id;
-  final String nome;
-  final String categoria;
-
-  Item(this.id, this.nome, this.categoria);
-}
-
-final items = [
-  Item(0, 'Uva', 'Fruta'),
-  Item(1, 'Diamante negro', 'Doce'),
-  Item(2, 'Coca cola', 'Bebida'),
-  Item(3, 'Maçã', 'Categoria 1'),
-  Item(4, 'Abacaxi', 'Categoria 1'),
-  Item(5, 'Pepsi', 'Categoria 1'),
-  Item(6, 'Sonho de valsa', 'Categoria 1'),
-  Item(7, 'Fanta', 'Categoria 1'),
-  Item(8, 'Laranja', 'Categoria 1'),
-  Item(9, 'Kit kat', 'Categoria 1'),
-];
