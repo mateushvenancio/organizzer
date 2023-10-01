@@ -5,6 +5,10 @@ class ConfigController extends ChangeNotifier {
   final IConfigRepository configRepository;
   ConfigController(this.configRepository);
 
+  init() async {
+    nome = await configRepository.getNome() ?? 'Usuário';
+  }
+
   String nome = 'Usuário';
 
   setNome(String value) {

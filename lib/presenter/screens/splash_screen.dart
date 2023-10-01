@@ -4,7 +4,8 @@ import 'package:organizzer/presenter/components/logo_component.dart';
 import 'package:organizzer/resources/colors.dart';
 
 class SplashScreen extends StatefulWidget {
-  final Future<void> Function() onLoad;
+  final List<SplashAwaiter> onLoad;
+  // final Future<void> Function() onLoad;
   const SplashScreen({super.key, required this.onLoad});
 
   @override
@@ -13,7 +14,7 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   _init() async {
-    await widget.onLoad();
+    await Future.wait(widget.onLoad.map((e) => e.init(context)));
     if (mounted) {
       context.go('/main');
     }
@@ -33,7 +34,7 @@ class _SplashScreenState extends State<SplashScreen> {
         child: Column(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [
+          children: const [
             LogoComponent(size: 200),
             Text(
               'Organizzer',
@@ -47,4 +48,9 @@ class _SplashScreenState extends State<SplashScreen> {
       ),
     );
   }
+}
+
+class SplashAwaiter {
+  final Future<void> Function(BuildContext context) init;
+  SplashAwaiter(this.init);
 }

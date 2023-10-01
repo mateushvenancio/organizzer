@@ -67,13 +67,19 @@ final _router = GoRouter(
       path: '/',
       builder: (context, state) {
         return SplashScreen(
-          onLoad: () async {
-            await context.read<CompraController>().init();
-            if (context.mounted) {
-              await context.read<CategoriasController>().init();
-              // await context.read<TarefasController>().init();
-            }
-          },
+          onLoad: [
+            SplashAwaiter((context) => context.read<CompraController>().init()),
+            SplashAwaiter((context) => context.read<CategoriasController>().init()),
+            SplashAwaiter((context) => context.read<ConfigController>().init()),
+          ],
+          // onLoad: () async {
+          //   await context.read<CompraController>().init();
+          //   if (context.mounted) {
+          //     await context.read<CategoriasController>().init();
+          //     await context.read<ConfigController>().init();
+          //     // await context.read<TarefasController>().init();
+          //   }
+          // },
         );
       },
     ),
