@@ -44,13 +44,13 @@ class _AddCompraDialogState extends State<AddCompraDialog> {
     }
 
     if (widget.compra == null) {
-      widget.onCreate(
-        CreateCompraDto(
-          nome: tituloController.text,
-          quantidade: quantidade,
-          preco: preco ?? 0,
-        ),
-      );
+      // widget.onCreate(
+      //   CreateCompraDto(
+      //     nome: tituloController.text,
+      //     quantidade: quantidade,
+      //     preco: preco ?? 0,
+      //   ),
+      // );
     } else {
       widget.onEdit?.call(
         EditCompraDto(
@@ -134,6 +134,27 @@ class _AddCompraDialogState extends State<AddCompraDialog> {
           ),
         ),
       ],
+    );
+  }
+}
+
+class _SelecionarCategoria extends StatelessWidget {
+  final Function() onTap;
+
+  const _SelecionarCategoria({required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 4),
+      child: Row(
+        children: [
+          Expanded(
+            child: Text('Selecionar categoria...'),
+          ),
+          Icon(Icons.chevron_right, size: 20),
+        ],
+      ),
     );
   }
 }

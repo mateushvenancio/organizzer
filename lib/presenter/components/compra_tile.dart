@@ -7,7 +7,7 @@ class CompraTile extends StatelessWidget {
   final CompraEntity compra;
   final Function(CompraEntity) onTap;
   final Function(CompraEntity)? onEdit;
-  final Function(CompraEntity)? onDelete;
+  final Future<bool> Function(CompraEntity)? onDelete;
   final bool _collapsed;
 
   const CompraTile({
@@ -57,46 +57,59 @@ class CompraTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      contentPadding: _collapsed ? EdgeInsets.zero : null,
-      leading: AnimatedContainer(
-        duration: const Duration(milliseconds: 100),
-        height: double.infinity,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: _getColor,
-          border: Border.all(
-            color: _getBorderColor,
+    return Dismissible(
+      key: Key(compra.id),
+      background: Container(
+        color: Colors.red,
+        alignment: Alignment.centerRight,
+        padding: const EdgeInsets.only(right: 16),
+        child: Icon(Icons.delete, color: Colors.white),
+      ),
+      direction: DismissDirection.endToStart,
+      confirmDismiss: (direction) async {
+        return (await onDelete?.call(compra)) ?? false;
+      },
+      child: ListTile(
+        contentPadding: _collapsed ? EdgeInsets.zero : null,
+        leading: AnimatedContainer(
+          duration: const Duration(milliseconds: 100),
+          height: double.infinity,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: _getColor,
+            border: Border.all(
+              color: _getBorderColor,
+            ),
+          ),
+          child: _getIcon,
+        ),
+        onLongPress: () => onEdit?.call(compra),
+        // trailing: Text(DateFormatter().miniDate(compra.createdAt)),
+        // trailing: _collapsed
+        //     ? null
+        //     : Row(
+        //         mainAxisSize: MainAxisSize.min,
+        //         children: [
+        //           IconButton(
+        //             onPressed: () => onEdit?.call(compra),
+        //             icon: Icon(Icons.edit_outlined),
+        //           ),
+        //           IconButton(
+        //             onPressed: () => onDelete?.call(compra),
+        //             icon: Icon(Icons.delete_outline),
+        //           ),
+        //         ],
+        //       ),
+        title: Text(
+          '${compra.nome} - R\$ ${(compra.quantidade * compra.preco).toPrice()}',
+          style: TextStyle(
+            decoration: _getDecoration,
           ),
         ),
-        child: _getIcon,
+        subtitle: Text('${compra.quantidade}× R\$ ${compra.preco.toPrice()}'),
+        onTap: () => onTap(compra),
+        // onLongPress: () => onLongTap?.call(compra),
       ),
-      // trailing: Text(DateFormatter().miniDate(compra.createdAt)),
-
-      trailing: _collapsed
-          ? null
-          : Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                IconButton(
-                  onPressed: () => onEdit?.call(compra),
-                  icon: Icon(Icons.edit_outlined),
-                ),
-                IconButton(
-                  onPressed: () => onDelete?.call(compra),
-                  icon: Icon(Icons.delete_outline),
-                ),
-              ],
-            ),
-      title: Text(
-        '${compra.nome} - R\$ ${(compra.quantidade * compra.preco).toPrice()}',
-        style: TextStyle(
-          decoration: _getDecoration,
-        ),
-      ),
-      subtitle: Text('${compra.quantidade}× R\$ ${compra.preco.toPrice()}'),
-      onTap: () => onTap(compra),
-      // onLongPress: () => onLongTap?.call(compra),
     );
   }
 }

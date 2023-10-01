@@ -39,40 +39,95 @@ class ComprasScreen extends StatelessWidget {
         builder: (context, controller, child) {
           return ListView(
             children: [
-              ...controller.compras.map((e) {
-                return CompraTile(
-                  compra: e,
-                  onTap: (value) {
-                    controller.editCompra(EditCompraDto(
-                      id: value.id,
-                      done: !value.done,
-                    ));
-                  },
-                  onEdit: (value) {
-                    showDialog(
-                      context: context,
-                      builder: (_) => AddCompraDialog(
-                        onCreate: context.read<CompraController>().addCompra,
-                        onEdit: context.read<CompraController>().editCompra,
-                        compra: value,
+              ...controller.groupByCategorias.entries.map((item) {
+                return ListView(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 16),
+                      child: Text(
+                        item.key.nome,
+                        style: TextStyle(
+                          color: Color(item.key.cor),
+                          fontSize: 20,
+                        ),
                       ),
-                    );
-                  },
-                  onDelete: (value) {
-                    showDialog(
-                      context: context,
-                      builder: (_) {
-                        return YesNoDialog(
-                          title: 'Deletar este item?',
-                          onYes: () {
-                            controller.deleteCompra(value);
-                          },
-                        );
-                      },
-                    );
-                  },
+                    ),
+                    ...item.value.map((e) {
+                      return CompraTile(
+                        compra: e,
+                        onTap: (value) {
+                          controller.editCompra(EditCompraDto(
+                            id: value.id,
+                            done: !value.done,
+                          ));
+                        },
+                        onEdit: (value) {
+                          showDialog(
+                            context: context,
+                            builder: (_) => AddCompraDialog(
+                              onCreate: context.read<CompraController>().addCompra,
+                              onEdit: context.read<CompraController>().editCompra,
+                              compra: value,
+                            ),
+                          );
+                        },
+                        onDelete: (value) async {
+                          bool retorna = false;
+                          await showDialog(
+                            context: context,
+                            builder: (_) {
+                              return YesNoDialog(
+                                title: 'Deletar este item?',
+                                onYes: () {
+                                  controller.deleteCompra(value);
+                                  retorna = true;
+                                },
+                              );
+                            },
+                          );
+                          return retorna;
+                        },
+                      );
+                    }),
+                  ],
                 );
               }).toList(),
+              // ...controller.compras.map((e) {
+              //   return CompraTile(
+              //     compra: e,
+              //     onTap: (value) {
+              //       controller.editCompra(EditCompraDto(
+              //         id: value.id,
+              //         done: !value.done,
+              //       ));
+              //     },
+              //     onEdit: (value) {
+              //       showDialog(
+              //         context: context,
+              //         builder: (_) => AddCompraDialog(
+              //           onCreate: context.read<CompraController>().addCompra,
+              //           onEdit: context.read<CompraController>().editCompra,
+              //           compra: value,
+              //         ),
+              //       );
+              //     },
+              //     onDelete: (value) {
+              //       showDialog(
+              //         context: context,
+              //         builder: (_) {
+              //           return YesNoDialog(
+              //             title: 'Deletar este item?',
+              //             onYes: () {
+              //               controller.deleteCompra(value);
+              //             },
+              //           );
+              //         },
+              //       );
+              //     },
+              //   );
+              // }).toList(),
               ListTile(
                 title: Text('Total'),
                 trailing: Text('R\$ ${controller.total.toPrice()}'),

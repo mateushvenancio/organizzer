@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:organizzer/presenter/components/add_compra_dialog.dart';
-import 'package:organizzer/presenter/controllers/compra_controller.dart';
+import 'package:go_router/go_router.dart';
 import 'package:organizzer/presenter/controllers/home_controller.dart';
+import 'package:organizzer/presenter/screens/categorias_screen.dart';
 import 'package:organizzer/presenter/screens/compras_screen.dart';
 import 'package:organizzer/presenter/screens/config_screen.dart';
 import 'package:organizzer/presenter/screens/home_screen.dart';
@@ -27,7 +27,7 @@ class _MainScreenState extends State<MainScreen> {
         children: [
           HomeScreen(),
           ConfigScreen(),
-          Container(),
+          CategoriasScreen(),
           ComprasScreen(),
         ],
       ),
@@ -36,12 +36,13 @@ class _MainScreenState extends State<MainScreen> {
         child: Icon(Icons.add),
         onPressed: () {
           context.read<HomeController>().setBottomBarIndex(3);
-          showDialog(
-            context: context,
-            builder: (_) => AddCompraDialog(
-              onCreate: context.read<CompraController>().addCompra,
-            ),
-          );
+          context.push('/compra_form');
+          // showDialog(
+          //   context: context,
+          //   builder: (_) => AddCompraDialog(
+          //     onCreate: context.read<CompraController>().addCompra,
+          //   ),
+          // );
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
