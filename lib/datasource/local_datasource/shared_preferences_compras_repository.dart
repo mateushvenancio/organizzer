@@ -1,25 +1,11 @@
-import 'dart:convert';
-
-import 'package:organizzer/core/converters/compra_json_conversor.dart';
 import 'package:organizzer/core/dto/create_compra_dto.dart';
 import 'package:organizzer/core/dto/edit_compra_dto.dart';
+import 'package:organizzer/datasource/local_datasource/preferences_abstraction.dart';
 import 'package:organizzer/entities/compra_entity.dart';
 import 'package:organizzer/repositories/i_compras_repository.dart';
 import 'package:organizzer/utils/generate_uuid.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-class SharedPreferencesComprasRepository implements IComprasRepository {
-  final compraConversor = CompraJsonConversor();
-  final comprasKey = 'COMPRAS_DB';
-
-  _saveCompras(List<CompraEntity> compras) async {
-    final prefs = await SharedPreferences.getInstance();
-    final List<String> comprasJson = compras.map((e) {
-      return jsonEncode(compraConversor.to(e));
-    }).toList();
-    await prefs.setStringList(comprasKey, comprasJson);
-  }
-
+class SharedPreferencesComprasRepository extends PreferencesAbstraction<CompraEntity> implements IComprasRepository {
   @override
   Future<CompraEntity> createCompra(CreateCompraDto dto) async {
     final novaCompra = CompraEntity(
@@ -29,48 +15,56 @@ class SharedPreferencesComprasRepository implements IComprasRepository {
       quantidade: dto.quantidade,
       done: false,
       createdAt: DateTime.now(),
+      categoria: dto.categoria,
     );
-
-    final compras = await getCompras();
-    compras.add(novaCompra);
-    await _saveCompras(compras);
+    await addItem(novaCompra);
     return novaCompra;
   }
 
   @override
-  Future<void> deleteCompra(String id) async {
-    final compras = await getCompras();
-    compras.removeWhere((e) => e.id == id);
-    await _saveCompras(compras);
-  }
+  Future<void> deleteCompra(String id) async => deleteWhere((value) => value.id == id);
 
   @override
-  Future<CompraEntity> editCompra(EditCompraDto dto) async {
-    final compras = await getCompras();
-    final index = compras.indexWhere((e) => e.id == dto.id);
-    compras[index] = compras[index].copyWith(
-      done: dto.done,
-      nome: dto.nome,
-      preco: dto.preco,
-      quantidade: dto.quantidade,
+  Future<CompraEntity> editCompra(EditCompraDto dto) {
+    return editarItem(
+      (oldItem) {
+        return oldItem.copyWith(
+          done: dto.done,
+          nome: dto.nome,
+          preco: dto.preco,
+          quantidade: dto.quantidade,
+        );
+      },
+      (value) => value.id == dto.id,
     );
-    await _saveCompras(compras);
-    return compras[index];
+  }
+  // final compras = await getCompras();
+  // final index = compras.indexWhere((e) => e.id == dto.id);
+  // compras[index] = compras[index].copyWith(
+  //   done: dto.done,
+  //   nome: dto.nome,
+  //   preco: dto.preco,
+  //   quantidade: dto.quantidade,
+  // );
+  // await _saveCompras(compras);
+  // return compras[index];
+
+  @override
+  Future<List<CompraEntity>> getCompras() => getItems();
+
+  @override
+  Future<void> deleteTodos() => deleteWhere((_) => true);
+
+  @override
+  String get key => 'compras_repository';
+
+  @override
+  CompraEntity fromMap(Map<String, dynamic> value) {
+    return CompraEntity.fromMap(value);
   }
 
   @override
-  Future<List<CompraEntity>> getCompras() async {
-    final prefs = await SharedPreferences.getInstance();
-    final compras = prefs.getStringList(comprasKey) ?? [];
-    return compras.map((e) {
-      final aaa = jsonDecode(e);
-      aaa;
-      return compraConversor.from(aaa);
-    }).toList();
-  }
-
-  @override
-  Future<void> deleteTodos() async {
-    await _saveCompras([]);
+  Map<String, dynamic> toMap(CompraEntity value) {
+    return value.toMap();
   }
 }

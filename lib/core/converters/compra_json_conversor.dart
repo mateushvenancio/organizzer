@@ -1,4 +1,5 @@
 import 'package:organizzer/core/converters/converter.dart';
+import 'package:organizzer/entities/categoria_entity.dart';
 import 'package:organizzer/entities/compra_entity.dart';
 
 class CompraJsonConversor implements Conversor<Map<String, dynamic>, CompraEntity> {
@@ -11,6 +12,7 @@ class CompraJsonConversor implements Conversor<Map<String, dynamic>, CompraEntit
       quantidade: input['quantidade'],
       createdAt: DateTime.parse(input['createdAt']),
       done: input['done'],
+      categoria: CategoriaEntity.fromMap({}),
     );
   }
 

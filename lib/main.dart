@@ -2,18 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:organizzer/datasource/local_datasource/shared_preferences_categorias_repository.dart';
 import 'package:organizzer/datasource/local_datasource/shared_preferences_compras_repository.dart';
-import 'package:organizzer/datasource/local_datasource/shared_preferences_tarefas_repository.dart';
+import 'package:organizzer/datasource/local_datasource/shared_preferences_config_repository.dart';
+import 'package:organizzer/presenter/controllers/categorias_controller.dart';
 import 'package:organizzer/presenter/controllers/compra_controller.dart';
+import 'package:organizzer/presenter/controllers/config_controller.dart';
 import 'package:organizzer/presenter/controllers/home_controller.dart';
-import 'package:organizzer/presenter/controllers/tarefas_controller.dart';
+import 'package:organizzer/presenter/screens/add_compra_screen.dart';
 import 'package:organizzer/presenter/screens/calculadora_screen.dart';
 import 'package:organizzer/presenter/screens/main_screen.dart';
 import 'package:organizzer/presenter/screens/qr_code_screen.dart';
 import 'package:organizzer/presenter/screens/splash_screen.dart';
 import 'package:organizzer/presenter/screens/whatsapp_screen.dart';
+import 'package:organizzer/repositories/i_categorias_repository.dart';
 import 'package:organizzer/repositories/i_compras_repository.dart';
-import 'package:organizzer/repositories/i_tarefas_repository.dart';
+import 'package:organizzer/repositories/i_config_repository.dart';
 import 'package:organizzer/resources/colors.dart';
 import 'package:provider/provider.dart';
 
@@ -22,9 +26,11 @@ void main() {
     MultiProvider(
       providers: [
         Provider<IComprasRepository>(create: (_) => SharedPreferencesComprasRepository()),
-        Provider<ITarefasRepository>(create: (_) => SharedPreferencesTarefasRepository()),
+        Provider<IConfigRepository>(create: (_) => SharedPreferencesConfigRepository()),
+        Provider<ICategoriasRepository>(create: (_) => SharedPreferencesCategoriasRepository()),
         ChangeNotifierProvider(create: (_) => HomeController()),
-        ChangeNotifierProvider(create: (context) => TarefasController(context.read<ITarefasRepository>())),
+        ChangeNotifierProvider(create: (context) => ConfigController(context.read<IConfigRepository>())),
+        ChangeNotifierProvider(create: (context) => CategoriasController(context.read<ICategoriasRepository>())),
         ChangeNotifierProvider(create: (context) => CompraController(context.read<IComprasRepository>())),
       ],
       child: const MyApp(),
@@ -61,12 +67,19 @@ final _router = GoRouter(
       path: '/',
       builder: (context, state) {
         return SplashScreen(
-          onLoad: () async {
-            await context.read<CompraController>().init();
-            if (context.mounted) {
-              await context.read<TarefasController>().init();
-            }
-          },
+          onLoad: [
+            SplashAwaiter((context) => context.read<CompraController>().init()),
+            SplashAwaiter((context) => context.read<CategoriasController>().init()),
+            SplashAwaiter((context) => context.read<ConfigController>().init()),
+          ],
+          // onLoad: () async {
+          //   await context.read<CompraController>().init();
+          //   if (context.mounted) {
+          //     await context.read<CategoriasController>().init();
+          //     await context.read<ConfigController>().init();
+          //     // await context.read<TarefasController>().init();
+          //   }
+          // },
         );
       },
     ),
@@ -85,6 +98,10 @@ final _router = GoRouter(
     GoRoute(
       path: '/calculadora',
       builder: (context, state) => CalculadoraScreen(),
+    ),
+    GoRoute(
+      path: '/compra_form',
+      builder: (context, state) => CompraFormScreen(),
     ),
   ],
 );

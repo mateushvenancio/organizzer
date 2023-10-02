@@ -1,6 +1,8 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:organizzer/core/dto/create_compra_dto.dart';
 import 'package:organizzer/core/dto/edit_compra_dto.dart';
+import 'package:organizzer/entities/categoria_entity.dart';
 import 'package:organizzer/entities/compra_entity.dart';
 import 'package:organizzer/repositories/i_compras_repository.dart';
 
@@ -18,6 +20,10 @@ class CompraController extends ChangeNotifier {
   List<CompraEntity> get topCompras {
     if (compras.length < 3) return compras;
     return compras.getRange(0, 3).toList();
+  }
+
+  Map<CategoriaEntity, List<CompraEntity>> get groupByCategorias {
+    return compras.groupListsBy<CategoriaEntity>((e) => e.categoria);
   }
 
   double get total {
