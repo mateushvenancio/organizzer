@@ -59,8 +59,8 @@ class CategoriasScreen extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     IconButton(
-                      onPressed: () async {
-                        await showDialog(
+                      onPressed: () {
+                        showDialog(
                           context: context,
                           builder: (_) => AddCategoriaDialog(
                             categoria: e,
