@@ -7,7 +7,7 @@ class NoContentChip extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: [
+      children: const [
         Icon(Icons.info_outline, size: 16),
         SizedBox(width: 8),
         Text('Sem itens a exibir'),

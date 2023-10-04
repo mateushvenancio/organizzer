@@ -33,6 +33,7 @@ class SharedPreferencesComprasRepository extends PreferencesAbstraction<CompraEn
           nome: dto.nome,
           preco: dto.preco,
           quantidade: dto.quantidade,
+          categoria: dto.categoria,
         );
       },
       (value) => value.id == dto.id,

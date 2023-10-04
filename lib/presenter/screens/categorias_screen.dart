@@ -3,6 +3,7 @@ import 'package:organizzer/presenter/components/add_categoria_dialog.dart';
 import 'package:organizzer/presenter/components/main_app_bar.dart';
 import 'package:organizzer/presenter/components/yes_no_dialog.dart';
 import 'package:organizzer/presenter/controllers/categorias_controller.dart';
+import 'package:organizzer/presenter/controllers/compra_controller.dart';
 import 'package:provider/provider.dart';
 
 class CategoriasScreen extends StatelessWidget {
@@ -58,12 +59,17 @@ class CategoriasScreen extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     IconButton(
-                      onPressed: () {
-                        showDialog(
+                      onPressed: () async {
+                        await showDialog(
                           context: context,
                           builder: (_) => AddCategoriaDialog(
                             categoria: e,
-                            onEdit: context.read<CategoriasController>().editCategoria,
+                            onEdit: (dto) async {
+                              await context.read<CategoriasController>().editCategoria(dto);
+                              if (context.mounted) {
+                                context.read<CompraController>().init();
+                              }
+                            },
                             onCreate: context.read<CategoriasController>().createCategoria,
                           ),
                         );

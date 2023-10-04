@@ -30,7 +30,12 @@ void main() {
         Provider<ICategoriasRepository>(create: (_) => SharedPreferencesCategoriasRepository()),
         ChangeNotifierProvider(create: (_) => HomeController()),
         ChangeNotifierProvider(create: (context) => ConfigController(context.read<IConfigRepository>())),
-        ChangeNotifierProvider(create: (context) => CategoriasController(context.read<ICategoriasRepository>())),
+        ChangeNotifierProvider(create: (context) {
+          return CategoriasController(
+            context.read<ICategoriasRepository>(),
+            context.read<IComprasRepository>(),
+          );
+        }),
         ChangeNotifierProvider(create: (context) => CompraController(context.read<IComprasRepository>())),
       ],
       child: const MyApp(),

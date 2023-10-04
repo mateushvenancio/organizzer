@@ -49,7 +49,6 @@ class HiveCategoriasRepository implements ICategoriasRepository {
 
   @override
   Future<CategoriaEntity> editCategoria(EditCategoriaDto dto) {
-    // TODO: implement editCategoria
     throw UnimplementedError();
   }
 }
