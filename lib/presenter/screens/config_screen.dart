@@ -36,7 +36,7 @@ class _ConfigScreenState extends State<ConfigScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Troque o nome, para aparecer na tela inicial:'),
+            Text('Troque o nome para aparecer na tela inicial:'),
             MainTextField(
               hint: 'Nome',
               errorText: errorNome,
